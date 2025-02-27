@@ -12,7 +12,8 @@ export default {
         accent: "#666666",
       },
       fontFamily: {
-        sans: ['Helvetica Neue', 'Roboto', 'sans-serif'],
+        'sans': ['Inter', 'system-ui', 'sans-serif'],
+        'serif': ['Playfair Display', 'Georgia', 'serif'],
       },
     },
   },
