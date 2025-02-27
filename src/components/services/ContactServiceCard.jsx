@@ -87,8 +87,8 @@ const ContactServiceCard = ({ index, isLight = false }) => {
       className="mb-12"
     >
       <motion.div 
-        className="w-full group"
-        whileHover={{ scale: 1.02, rotate: -1 }}
+        className="w-[90%] group"
+        whileHover={{ scale: 1.01 }}
         transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1.0] }}
       >
         <div className={`relative p-12 rounded-[2rem] overflow-hidden transition-all duration-500
@@ -116,8 +116,8 @@ const ContactServiceCard = ({ index, isLight = false }) => {
               Have a project in mind? Let's create something exceptional together.
             </p>
             
-            <form onSubmit={handleSubmit} className="space-y-8">
-              <div className="space-y-2">
+            <form onSubmit={handleSubmit} className="space-y-16">
+              <div className="space-y-3">
                 <input
                   type="text"
                   name="name"
@@ -133,7 +133,7 @@ const ContactServiceCard = ({ index, isLight = false }) => {
                 {errors.name && <span className="text-red-500 text-sm">{errors.name}</span>}
               </div>
               
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <input
                   type="email"
                   name="email"
@@ -149,7 +149,7 @@ const ContactServiceCard = ({ index, isLight = false }) => {
                 {errors.email && <span className="text-red-500 text-sm">{errors.email}</span>}
               </div>
               
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <textarea
                   name="message"
                   value={formData.message}
@@ -168,9 +168,9 @@ const ContactServiceCard = ({ index, isLight = false }) => {
               <motion.button
                 type="submit"
                 disabled={isSubmitting}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className={`mt-8 px-8 py-4 rounded-xl text-base uppercase tracking-wider font-light transition-all duration-300 disabled:opacity-50 ${
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                className={`mt-12 px-8 py-4 rounded-xl text-base uppercase tracking-wider font-light transition-all duration-300 disabled:opacity-50 ${
                   isLight 
                     ? 'bg-neutral-900 text-white hover:bg-neutral-800' 
                     : 'bg-white text-neutral-900 hover:bg-neutral-100'

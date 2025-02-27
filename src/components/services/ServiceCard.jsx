@@ -3,13 +3,13 @@ import { motion } from 'framer-motion';
 const ServiceCard = ({ title, description, accents = [], index, isLight = false }) => {
   const number = String(index + 1).padStart(2, '0');
   
-  // Function to add serif styling to accented words
+  // Function to add styling to accented words
   const formatDescription = (text, accents) => {
     let formattedText = text;
     accents.forEach(accent => {
       formattedText = formattedText.replace(
         new RegExp(`(${accent})`, 'gi'),
-        '<span class="font-serif italic">$1</span>'
+        '<span class="text-neutral-800">$1</span>'
       );
     });
     return <span dangerouslySetInnerHTML={{ __html: formattedText }} />;
@@ -32,20 +32,20 @@ const ServiceCard = ({ title, description, accents = [], index, isLight = false 
         whileHover={{ scale: 1.02, rotate: -1 }}
         transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1.0] }}
       >
-        <div className={`relative p-12 rounded-[2rem] overflow-hidden transition-all duration-500
+        <div className={`relative p-8 rounded-[2rem] overflow-hidden transition-all duration-500
           ${isLight 
             ? 'bg-gradient-to-br from-white/90 via-white/95 to-neutral-50/90 backdrop-blur-xl shadow-[0_8px_24px_-12px_rgba(0,0,0,0.2),0_24px_48px_-16px_rgba(0,0,0,0.1)] hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.2),0_32px_64px_-16px_rgba(0,0,0,0.15)]' 
             : 'bg-neutral-900 border border-neutral-800'
           }`}
         >
           {/* Subtle serif number */}
-          <span className="absolute top-8 left-12 font-serif italic text-2xl text-neutral-300">
+          <span className="absolute top-6 left-8 font-serif italic text-2xl text-neutral-300">
             {number}
           </span>
           
           {/* Content */}
-          <div className="relative mt-8">            
-            <h3 className={`text-3xl md:text-4xl font-light mb-6 transition-all duration-500 ${
+          <div className="relative mt-6">            
+            <h3 className={`text-2xl md:text-3xl font-extralight mb-3 transition-all duration-500 ${
               isLight 
                 ? 'text-neutral-900 group-hover:translate-x-2' 
                 : 'text-white'
@@ -53,7 +53,7 @@ const ServiceCard = ({ title, description, accents = [], index, isLight = false 
               {title.join(' ')}
             </h3>
             
-            <p className={`text-lg md:text-xl font-light leading-relaxed ${
+            <p className={`text-base font-light leading-relaxed ${
               isLight ? 'text-neutral-600 group-hover:text-neutral-800' : 'text-neutral-500'
             }`}>
               {formatDescription(description, accents)}
