@@ -5,7 +5,7 @@ import { featuredProjects } from '../../data/projects';
 const FeaturedProjects = () => {
   return (
     <section className="w-full py-40 relative">
-      <div className="container mx-auto">
+      <div className="max-w-[120rem] mx-auto px-8">
         <div className="flex flex-col md:flex-row items-start">
           {/* Left side - Sticky Heading */}
           <div className="w-full md:w-1/3 md:sticky md:top-40 mb-16 md:mb-0 order-1">

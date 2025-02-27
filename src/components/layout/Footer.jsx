@@ -43,7 +43,7 @@ const Footer = () => {
       viewport={{ once: true }}
       variants={containerVariants}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[120rem] mx-auto px-8">
         {/* Main Footer Content */}
         <div className="py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 justify-items-center md:justify-items-start">
