@@ -162,26 +162,29 @@ const AboutIntro = () => {
   return (
     <motion.div 
       ref={sectionRef} 
-      className="relative bg-black w-screen"
+      className="relative bg-black w-screen -mt-20"
       style={{ 
         height: '700vh',
         margin: 0,
         padding: 0,
-        transform: 'translateX(-8.5%)'
+        transform: 'translateX(-50%)',
+        marginLeft: '50%'
       }}
     >
       <motion.div
         ref={containerRef}
-        className="sticky top-0 h-screen w-screen overflow-hidden bg-[#0a0a0f]"
+        className="sticky top-0 h-screen w-full overflow-hidden bg-[#0a0a0f]"
         style={{ 
           opacity,
+          width: '100vw',
           margin: 0,
           padding: 0
         }}
       >
         <motion.div 
-          className="absolute inset-0 w-screen"
+          className="absolute inset-0 w-full"
           style={{
+            width: '100vw',
             margin: 0,
             padding: 0
           }}
@@ -194,14 +197,16 @@ const AboutIntro = () => {
         </motion.div>
         
         <div className="relative z-10 flex items-center justify-center h-full w-screen">
-          <div className="max-w-4xl text-center px-4">
-            <h2 className="text-5xl md:text-7xl font-medium text-white mb-8 tracking-tight leading-tight">
-              I pair <span className="font-serif italic font-normal">strong visual design</span> skills with a focus on <span className="font-serif italic font-normal">user-centered</span> design.
-            </h2>
-            <p className="text-xl md:text-2xl text-gray-400 font-light leading-relaxed">
-              With years of experience in the design industry, I have been helping
-              to bring brands to life through <span className="font-serif italic font-normal">thoughtful design</span> that resonates.
-            </p>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-5xl md:text-7xl font-medium text-white mb-8 tracking-tight leading-tight">
+                I pair <span className="font-serif italic font-normal">strong visual design</span> skills with a focus on <span className="font-serif italic font-normal">user-centered</span> design.
+              </h2>
+              <p className="text-xl md:text-2xl text-gray-400 font-light leading-relaxed">
+                With years of experience in the design industry, I have been helping
+                to bring brands to life through <span className="font-serif italic font-normal">thoughtful design</span> that resonates.
+              </p>
+            </div>
           </div>
         </div>
       </motion.div>

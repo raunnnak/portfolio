@@ -17,12 +17,13 @@ const Layout = ({ children }) => {
         exit={{ opacity: 0, y: 20 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Removed max-width constraint but kept padding for content alignment */}
+        <div className="w-full">
           {children}
         </div>
       </motion.main>
 
-      {/* Footer - No mt-auto needed here as the main content uses flex-1 */}
+      {/* Footer */}
       <Footer />
     </div>
   );

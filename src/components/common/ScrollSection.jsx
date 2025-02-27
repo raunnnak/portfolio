@@ -1,32 +1,12 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-
-const ScrollSection = ({ children, isBlack = false, isFirst = false }) => {
-  const { scrollYProgress } = useScroll({
-    offset: ["start end", "end start"]
-  });
-
-  const opacity = useTransform(
-    scrollYProgress,
-    [0, 0.499, 0.5, 1],
-    [1, 1, 0, 0]
-  );
-
+const ScrollSection = ({ children, isBlack = false }) => {
   return (
-    <motion.section className={`relative ${isFirst ? 'pt-0' : 'pt-20'} pb-20`}>
-      <motion.div
-        className="absolute inset-0"
-        style={{
-          backgroundColor: isBlack ? '#171717' : '#ffffff',
-          opacity,
-        }}
-      />
-      
-      <div className={`relative z-10 min-h-[80vh] flex flex-col justify-center ${
-        isBlack ? 'text-white' : 'text-black'
-      }`}>
-        {children}
+    <section className={`w-screen ${isBlack ? 'bg-black text-white' : 'bg-white text-black'}`}>
+      <div className="w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          {children}
+        </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

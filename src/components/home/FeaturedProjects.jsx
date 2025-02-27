@@ -4,7 +4,7 @@ import { featuredProjects } from '../../data/projects';
 
 const FeaturedProjects = () => {
   return (
-    <section className="w-full py-40 relative bg-white text-black">
+    <section className="w-full py-40 relative">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="flex flex-col md:flex-row items-start">
           {/* Left side - Projects list */}
