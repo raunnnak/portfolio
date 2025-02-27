@@ -1,7 +1,7 @@
 /* eslint-disable */
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 /* eslint-enable */
 
 /* Custom CSS Variables */
@@ -18,8 +18,9 @@ body {
   padding: 0;
   background-color: var(--primary-color);
   color: var(--text-color);
-  font-family: 'Helvetica Neue', 'Roboto', sans-serif;
+  font-family: "Helvetica Neue", "Roboto", sans-serif;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* Utility classes */
@@ -78,4 +79,4 @@ body {
 
 .animate-fade-in {
   animation: fadeIn 0.5s ease-out forwards;
-} 
+}
