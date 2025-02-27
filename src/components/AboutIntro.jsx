@@ -110,10 +110,9 @@ const AboutIntro = () => {
   return (
     <motion.div 
       ref={sectionRef} 
-      className="relative bg-[#1a1a2e] w-screen"
+      className="relative bg-[#1a1a2e] w-screen -ml-[calc((100vw-100%)/2)]"
       style={{ 
         height: '700vh',
-        transform: 'translateX(-9.1%)',
       }}
     >
       <motion.div
