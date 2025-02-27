@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import ServiceCard from './ServiceCard';
+import ContactServiceCard from './ContactServiceCard';
 
 const services = [
   {
@@ -46,15 +47,26 @@ const ServicesSection = () => {
 
           {/* Right side - Services list */}
           <div className="w-full md:w-2/3">
-            <div>
+            <div className="space-y-16">
               {services.map((service, index) => (
-                <ServiceCard
-                  key={service.title}
-                  title={service.title}
-                  description={service.description}
-                  index={index}
-                />
+                <div 
+                  key={service.title} 
+                  className={`w-full md:w-[90%] ${
+                    index % 2 === 0 
+                      ? 'md:ml-0' 
+                      : 'md:ml-auto'
+                  }`}
+                >
+                  <ServiceCard
+                    title={service.title}
+                    description={service.description}
+                    index={index}
+                  />
+                </div>
               ))}
+              <div className="w-full">
+                <ContactServiceCard index={services.length} />
+              </div>
             </div>
           </div>
         </div>
