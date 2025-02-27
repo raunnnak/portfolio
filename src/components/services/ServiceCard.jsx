@@ -1,8 +1,20 @@
 import { motion } from 'framer-motion';
 
-const ServiceCard = ({ title, description, index }) => {
+const ServiceCard = ({ title, description, accents = [], index, isLight = false }) => {
   const number = String(index + 1).padStart(2, '0');
   
+  // Function to add serif styling to accented words
+  const formatDescription = (text, accents) => {
+    let formattedText = text;
+    accents.forEach(accent => {
+      formattedText = formattedText.replace(
+        new RegExp(`(${accent})`, 'gi'),
+        '<span class="font-serif italic">$1</span>'
+      );
+    });
+    return <span dangerouslySetInnerHTML={{ __html: formattedText }} />;
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -13,21 +25,46 @@ const ServiceCard = ({ title, description, index }) => {
         delay: 0.1 + (index * 0.1),
         ease: [0.25, 0.1, 0.25, 1.0]
       }}
-      className="mb-24 md:mb-32"
+      className="mb-12"
     >
-      <div className="w-full">
-        <div className="p-6 md:p-8 bg-neutral-900 border border-neutral-800 rounded-md overflow-hidden group">
-          <span className="block text-sm uppercase tracking-[0.2em] text-neutral-500 font-light mb-4">
+      <motion.div 
+        className="w-full group"
+        whileHover={{ scale: 1.02, rotate: -1 }}
+        transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1.0] }}
+      >
+        <div className={`relative p-12 rounded-[2rem] overflow-hidden transition-all duration-500
+          ${isLight 
+            ? 'bg-gradient-to-br from-white/90 via-white/95 to-neutral-50/90 backdrop-blur-xl shadow-[0_8px_24px_-12px_rgba(0,0,0,0.2),0_24px_48px_-16px_rgba(0,0,0,0.1)] hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.2),0_32px_64px_-16px_rgba(0,0,0,0.15)]' 
+            : 'bg-neutral-900 border border-neutral-800'
+          }`}
+        >
+          {/* Subtle serif number */}
+          <span className="absolute top-8 left-12 font-serif italic text-2xl text-neutral-300">
             {number}
           </span>
-          <h3 className="text-2xl md:text-3xl font-light mb-4 group-hover:text-neutral-400 transition-colors duration-500">
-            {title}
-          </h3>
-          <p className="text-neutral-500 text-base md:text-lg font-light">
-            {description}
-          </p>
+          
+          {/* Content */}
+          <div className="relative mt-8">            
+            <h3 className={`text-3xl md:text-4xl font-light mb-6 transition-all duration-500 ${
+              isLight 
+                ? 'text-neutral-900 group-hover:translate-x-2' 
+                : 'text-white'
+            }`}>
+              {title.join(' ')}
+            </h3>
+            
+            <p className={`text-lg md:text-xl font-light leading-relaxed ${
+              isLight ? 'text-neutral-600 group-hover:text-neutral-800' : 'text-neutral-500'
+            }`}>
+              {formatDescription(description, accents)}
+            </p>
+          </div>
+
+          {/* Comic-style decorative elements */}
+          <div className="absolute top-0 right-0 w-32 h-32 opacity-50 bg-gradient-to-br from-neutral-100/50 to-transparent rounded-full blur-3xl transition-opacity duration-500 group-hover:opacity-80" />
+          <div className="absolute bottom-0 left-0 w-48 h-48 opacity-30 bg-gradient-to-tr from-neutral-100/30 to-transparent rounded-full blur-3xl transition-opacity duration-500 group-hover:opacity-60" />
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 };

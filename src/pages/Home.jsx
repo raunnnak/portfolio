@@ -19,7 +19,7 @@ const Home = () => {
         <AboutIntro />
       </ScrollSection>
 
-      <ScrollSection isBlack>
+      <ScrollSection>
         <ServicesSection />
       </ScrollSection>
     </main>

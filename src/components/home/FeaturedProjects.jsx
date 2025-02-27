@@ -54,7 +54,7 @@ const FeaturedProjects = () => {
             <div className="pl-0 md:pl-12">
               {featuredProjects.map((project, index) => (
                 <ProjectCard 
-                  key={project.id} 
+                  key={project.id}
                   project={project} 
                   index={index}
                   inverted
