@@ -23,8 +23,8 @@ const services = [
 const ServicesSection = () => {
   return (
     <section className="w-full py-40 relative">
-      <div className="container mx-auto px-6 lg:px-12">
-        <div className="flex flex-col md:flex-row items-start">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row items-start gap-x-24">
           {/* Left side - Heading */}
           <div className="w-full md:w-1/3 md:sticky md:top-40 mb-16 md:mb-0">
             <motion.div

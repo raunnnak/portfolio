@@ -33,94 +33,47 @@ const AboutIntro = () => {
     const ctx = canvas.getContext('2d');
     let particles = [];
     let animationFrameId;
-    let frame = 0;
 
     const resizeCanvas = () => {
       canvas.width = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
       canvas.height = window.innerHeight;
       
       const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, '#0a0a0f');
-      gradient.addColorStop(0.5, '#141428');
-      gradient.addColorStop(1, '#0a0a0f');
+      gradient.addColorStop(0, '#1a1a2e');
+      gradient.addColorStop(1, '#1a1a2e');
       
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     };
 
+    const drawStar = (x, y, size, opacity) => {
+      ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+      ctx.beginPath();
+      ctx.rect(x - size/2, y - size/2, size, size);
+      ctx.fill();
+    };
+
     const createParticles = () => {
       particles = [];
-      const numParticles = 300;
+      const numParticles = 12;
       
       for (let i = 0; i < numParticles; i++) {
-        const sizeGroup = Math.random();
-        let size, opacity, speed, color, glowRadius, shimmerSpeed;
-
-        if (sizeGroup > 0.98) {
-          size = Math.random() * 3 + 2;
-          opacity = Math.random() * 0.2 + 0.8;
-          speed = 0.15;
-          color = 'rgba(255, 255, 255, 1)';
-          glowRadius = size * 4;
-          shimmerSpeed = 0.08;
-        } else if (sizeGroup > 0.9) {
-          size = Math.random() * 2 + 1.5;
-          opacity = Math.random() * 0.3 + 0.5;
-          speed = 0.2;
-          color = 'rgba(220, 225, 255, 1)';
-          glowRadius = size * 3;
-          shimmerSpeed = 0.05;
-        } else {
-          size = Math.random() * 1 + 0.5;
-          opacity = Math.random() * 0.3 + 0.2;
-          speed = 0.25;
-          color = 'rgba(200, 210, 255, 1)';
-          glowRadius = size * 2;
-          shimmerSpeed = 0.03;
-        }
+        const size = Math.random() * 6 + 2;
+        const opacity = Math.random() * 0.15 + 0.05;
 
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
           size,
-          baseOpacity: opacity,
-          currentOpacity: opacity,
-          color,
-          glowRadius,
-          shimmerSpeed,
-          shimmerOffset: Math.random() * Math.PI * 2,
-          speedX: (Math.random() - 0.5) * speed * 2,
-          speedY: (Math.random() - 0.5) * speed
+          opacity,
+          speedX: (Math.random() - 0.5) * 0.1,
+          speedY: (Math.random() - 0.5) * 0.1
         });
       }
     };
 
-    const drawStar = (x, y, size, opacity, color, glowRadius) => {
-      const gradient = ctx.createRadialGradient(x, y, 0, x, y, glowRadius);
-      gradient.addColorStop(0, color.replace('1)', `${opacity})`));
-      gradient.addColorStop(0.5, color.replace('1)', `${opacity * 0.3})`));
-      gradient.addColorStop(1, color.replace('1)', '0)'));
-
-      ctx.fillStyle = gradient;
-      ctx.beginPath();
-      ctx.arc(x, y, glowRadius, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = color.replace('1)', `${opacity})`);
-      ctx.beginPath();
-      ctx.arc(x, y, size / 2, 0, Math.PI * 2);
-      ctx.fill();
-    };
-
     const animate = () => {
-      frame++;
-      
-      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, '#0a0a0f');
-      gradient.addColorStop(0.5, '#141428');
-      gradient.addColorStop(1, '#0a0a0f');
-      
-      ctx.fillStyle = gradient;
+      ctx.fillStyle = '#1a1a2e';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
       particles.forEach(particle => {
@@ -132,16 +85,11 @@ const AboutIntro = () => {
         if (particle.y < 0) particle.y = canvas.height;
         if (particle.y > canvas.height) particle.y = 0;
 
-        const shimmer = Math.sin(frame * particle.shimmerSpeed + particle.shimmerOffset) * 0.3 + 0.7;
-        particle.currentOpacity = particle.baseOpacity * shimmer;
-
         drawStar(
           particle.x,
           particle.y,
           particle.size,
-          particle.currentOpacity,
-          particle.color,
-          particle.glowRadius
+          particle.opacity
         );
       });
 
@@ -162,33 +110,18 @@ const AboutIntro = () => {
   return (
     <motion.div 
       ref={sectionRef} 
-      className="relative bg-black w-screen -mt-20"
+      className="relative bg-[#1a1a2e] w-screen"
       style={{ 
         height: '700vh',
-        margin: 0,
-        padding: 0,
-        transform: 'translateX(-50%)',
-        marginLeft: '50%'
+        transform: 'translateX(-9.1%)',
       }}
     >
       <motion.div
         ref={containerRef}
-        className="sticky top-0 h-screen w-full overflow-hidden bg-[#0a0a0f]"
-        style={{ 
-          opacity,
-          width: '100vw',
-          margin: 0,
-          padding: 0
-        }}
+        className="sticky top-0 h-screen w-full overflow-hidden"
+        style={{ opacity }}
       >
-        <motion.div 
-          className="absolute inset-0 w-full"
-          style={{
-            width: '100vw',
-            margin: 0,
-            padding: 0
-          }}
-        >
+        <motion.div className="absolute inset-0 w-full">
           <motion.canvas
             ref={canvasRef}
             className="absolute top-0 left-0 w-screen h-full"
@@ -197,15 +130,29 @@ const AboutIntro = () => {
         </motion.div>
         
         <div className="relative z-10 flex items-center justify-center h-full w-screen">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-5xl md:text-7xl font-medium text-white mb-8 tracking-tight leading-tight">
-                I pair <span className="font-serif italic font-normal">strong visual design</span> skills with a focus on <span className="font-serif italic font-normal">user-centered</span> design.
+          <div className="max-w-[90rem] mx-auto px-8 relative h-full w-full">
+            <div className="absolute top-[25%] left-1/2 -translate-x-1/2 flex items-center gap-1">
+              <span className="text-[0.625rem] tracking-[0.25em] text-white/60 uppercase">← ABOUT →</span>
+            </div>
+
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
+              <h2 className="text-[2rem] md:text-[2.75rem] lg:text-[3.5rem] font-[400] text-white tracking-[-0.02em] leading-[1.15] text-center max-w-[75rem] mx-auto">
+                I pair strong <span className="font-serif italic font-medium">visual design</span> skills with a<br />
+                focus on <span className="font-serif italic font-medium">user-centered</span> design.
               </h2>
-              <p className="text-xl md:text-2xl text-gray-400 font-light leading-relaxed">
-                With years of experience in the design industry, I have been helping
-                to bring brands to life through <span className="font-serif italic font-normal">thoughtful design</span> that resonates.
+            </div>
+
+            <div className="absolute top-[59%] left-1/2 -translate-x-1/2 w-full">
+              <p className="text-xs md:text-sm text-gray-400 font-[350] tracking-[-0.01em] text-center max-w-[50rem] mx-auto whitespace-nowrap">
+                Your brand deserves a <span className="font-serif italic">story</span> and an <span className="font-serif italic">identity</span>. I make sure they're both compelling.
               </p>
+            </div>
+            
+            <div className="absolute bottom-8 right-8 flex items-center gap-4">
+              <span className="text-[11px] tracking-[0.25em] text-gray-400 uppercase font-[350]">
+                SCROLL
+              </span>
+              <div className="h-[1px] w-12 bg-gradient-to-r from-gray-400 to-transparent" />
             </div>
           </div>
         </div>

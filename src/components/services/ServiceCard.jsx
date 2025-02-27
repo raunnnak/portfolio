@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 
 const ServiceCard = ({ title, description, index }) => {
   const number = String(index + 1).padStart(2, '0');
-  const isEven = index % 2 === 0;
   
   return (
     <motion.div
@@ -14,9 +13,9 @@ const ServiceCard = ({ title, description, index }) => {
         delay: 0.1 + (index * 0.1),
         ease: [0.25, 0.1, 0.25, 1.0]
       }}
-      className={`mb-24 md:mb-32 ${isEven ? 'md:pr-12' : 'md:pl-12 md:ml-auto'}`}
+      className="mb-24 md:mb-32"
     >
-      <div className={`w-full md:w-[90%] ${!isEven && 'md:ml-auto'}`}>
+      <div className="w-full">
         <div className="p-6 md:p-8 bg-neutral-900 border border-neutral-800 rounded-md overflow-hidden group">
           <span className="block text-sm uppercase tracking-[0.2em] text-neutral-500 font-light mb-4">
             {number}
