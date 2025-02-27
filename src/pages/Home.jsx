@@ -3,6 +3,7 @@ import FeaturedProjects from '../components/home/FeaturedProjects';
 import ServicesSection from '../components/services/ServicesSection';
 import ContactSection from '../components/contact/ContactSection';
 import ScrollSection from '../components/common/ScrollSection';
+import AboutIntro from '../components/AboutIntro';
 
 const Home = () => {
   return (
@@ -13,6 +14,10 @@ const Home = () => {
 
       <ScrollSection>
         <FeaturedProjects />
+      </ScrollSection>
+
+      <ScrollSection isBlack>
+        <AboutIntro />
       </ScrollSection>
 
       <ScrollSection isBlack>
