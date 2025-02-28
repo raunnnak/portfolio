@@ -11,7 +11,7 @@ const Layout = ({ children }) => {
 
       {/* Main Content */}
       <motion.main 
-        className="flex-1 pt-16 lg:pt-20" // pt-16 to account for fixed Navigation height
+        className="flex-1" 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 20 }}
