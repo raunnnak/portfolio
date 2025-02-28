@@ -1,17 +1,20 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { useState, useMemo } from 'react';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+import { useState, useMemo, useEffect } from 'react';
 import BlogLayout from '../layout/BlogLayout';
 import { blogPosts } from '../../../data/blogPosts';
 
 const POSTS_PER_PAGE = 6;
 
-const BlogList = () => {
-  // States for search, filters, and pagination
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedTag, setSelectedTag] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
+const BlogList = ({ defaultCategory = '', defaultTag = '' }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  // Initialize state from URL parameters or defaults
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
+  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || defaultCategory);
+  const [selectedTag, setSelectedTag] = useState(searchParams.get('tag') || defaultTag);
+  const [currentPage, setCurrentPage] = useState(parseInt(searchParams.get('page')) || 1);
 
   // Get unique categories and tags
   const categories = useMemo(() => {
@@ -43,7 +46,7 @@ const BlogList = () => {
   }, [searchQuery, selectedCategory, selectedTag]);
 
   // Calculate pagination
-  const totalPages = Math.ceil((filteredPosts.length - 1) / POSTS_PER_PAGE); // -1 because first post is featured
+  const totalPages = Math.ceil((filteredPosts.length - 1) / POSTS_PER_PAGE);
   const paginatedPosts = filteredPosts.slice(1).slice(
     (currentPage - 1) * POSTS_PER_PAGE,
     currentPage * POSTS_PER_PAGE
@@ -54,9 +57,34 @@ const BlogList = () => {
     ? blogPosts[0] 
     : null;
 
+  // Update URL parameters when filters or page changes
+  useEffect(() => {
+    const params = new URLSearchParams();
+    
+    if (searchQuery) params.set('search', searchQuery);
+    if (selectedCategory) params.set('category', selectedCategory);
+    if (selectedTag) params.set('tag', selectedTag);
+    if (currentPage > 1) params.set('page', currentPage.toString());
+
+    // Only update URL if there are parameters
+    if (Array.from(params.entries()).length > 0) {
+      setSearchParams(params);
+    } else {
+      // If no parameters, remove query string completely
+      navigate('.', { replace: true });
+    }
+  }, [searchQuery, selectedCategory, selectedTag, currentPage, setSearchParams, navigate]);
+
+  // Validate and adjust current page when filters change
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(Math.max(1, totalPages));
+    }
+  }, [currentPage, totalPages]);
+
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
-    setCurrentPage(1); // Reset to first page on search
+    setCurrentPage(1);
   };
 
   const handleCategoryChange = (categorySlug) => {
