@@ -240,6 +240,62 @@ const BlogPost = () => {
             </button>
           </div>
         </motion.div>
+
+        {/* Related Posts */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="border-t border-gray-800 pt-12 mt-12"
+        >
+          <h3 className="text-2xl font-semibold mb-8">Related Posts</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {blogPosts
+              .filter(p => 
+                p.id !== post.id && (
+                  p.category.id === post.category.id ||
+                  p.tags.some(t => post.tags.some(pt => pt.id === t.id))
+                )
+              )
+              .slice(0, 3)
+              .map((relatedPost, index) => (
+                <Link
+                  key={relatedPost.id}
+                  to={`/blog/${relatedPost.slug}`}
+                  className="block"
+                >
+                  <motion.article
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="bg-gray-900 rounded-xl overflow-hidden group hover:ring-2 hover:ring-emerald-500/50 transition-all"
+                  >
+                    <div className="h-48 overflow-hidden">
+                      <img
+                        src={relatedPost.coverImage}
+                        alt={relatedPost.title}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="p-6">
+                      <span className="text-sm text-emerald-400 mb-2 block">
+                        {relatedPost.category.name}
+                      </span>
+                      <h4 className="text-lg font-semibold mb-2 group-hover:text-emerald-400 transition-colors line-clamp-2">
+                        {relatedPost.title}
+                      </h4>
+                      <p className="text-gray-400 text-sm mb-4 line-clamp-2">
+                        {relatedPost.excerpt}
+                      </p>
+                      <span className="text-sm text-emerald-400 group-hover:translate-x-1 transition-transform inline-block">
+                        Read More →
+                      </span>
+                    </div>
+                  </motion.article>
+                </Link>
+              ))}
+          </div>
+        </motion.div>
       </article>
     </BlogLayout>
   );
