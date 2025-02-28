@@ -1,8 +1,7 @@
-import { motion } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useEffect, useState } from 'react';
 import ServiceCard from './ServiceCard';
 import ContactServiceCard from './ContactServiceCard';
-import { useState } from 'react';
 
 const services = [
   {
@@ -236,9 +235,46 @@ const ContactItem = () => {
 
 const ServicesSection = () => {
   const containerRef = useRef(null);
+  const headerRef = useRef(null);
+  const [isHeaderStuck, setIsHeaderStuck] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!headerRef.current || !containerRef.current) return;
+      
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const isStuck = containerRect.top <= 40;
+      
+      if (isStuck !== isHeaderStuck) {
+        setIsHeaderStuck(isStuck);
+        if (isStuck && !isPaused) {
+          setIsPaused(true);
+          document.documentElement.style.scrollBehavior = 'smooth';
+          setTimeout(() => {
+            setIsPaused(false);
+            document.documentElement.style.scrollBehavior = '';
+          }, 800);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.documentElement.style.scrollBehavior = '';
+    };
+  }, [isHeaderStuck, isPaused]);
 
   return (
-    <section ref={containerRef} className="py-32">
+    <section 
+      ref={containerRef} 
+      className="py-32"
+      style={{ 
+        scrollBehavior: isPaused ? 'smooth' : 'auto',
+        scrollSnapType: isPaused ? 'y mandatory' : 'none'
+      }}
+    >
       <div className="max-w-[120rem] mx-auto px-8">
         <div className="flex flex-col md:flex-row items-start gap-x-32">
           {/* Left side - Services list */}
@@ -256,24 +292,42 @@ const ServicesSection = () => {
           </div>
 
           {/* Right side - Heading */}
-          <div className="w-full md:w-1/3 md:sticky md:top-40 mb-12 md:mb-0 order-1 md:order-2">
+          <div 
+            ref={headerRef}
+            className="w-full md:w-1/3 md:sticky md:top-40 mb-12 md:mb-0 order-1 md:order-2"
+          >
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.8 }}
-              className="flex flex-col items-start"
+              animate={isHeaderStuck ? {
+                scale: 1.015,
+                opacity: 1,
+                filter: "drop-shadow(0 8px 16px rgba(0, 0, 0, 0.04))"
+              } : {
+                scale: 1,
+                opacity: 0.95,
+                filter: "drop-shadow(0 0 0 rgba(0, 0, 0, 0))"
+              }}
+              className="flex flex-col items-start transition-all duration-800 ease-[cubic-bezier(0.25,0.1,0.25,1.0)]"
             >
-              <div className="flex items-center gap-4 mb-4">
+              <motion.div 
+                className="flex items-center gap-4 mb-4"
+                transition={{ duration: 0.8 }}
+              >
                 <div className="h-[1px] w-[60px] bg-neutral-400" />
                 <span className="text-xs uppercase tracking-[0.2em] text-neutral-500 font-light">
                   Our Expertise
                 </span>
-              </div>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-thin tracking-[-0.02em] max-w-lg">
+              </motion.div>
+              <motion.h2 
+                className="text-2xl md:text-3xl lg:text-4xl font-thin tracking-[-0.02em] max-w-lg"
+                transition={{ duration: 0.8 }}
+              >
                 Transforming ideas into exceptional {" "} <br></br>
                 <span className="font-serif italic tracking-[0.025em]"> digital experiences</span>  
-              </h2>
+              </motion.h2>
             </motion.div>
           </div>
         </div>

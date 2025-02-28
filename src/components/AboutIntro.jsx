@@ -5,6 +5,7 @@ const AboutIntro = () => {
   const sectionRef = useRef(null);
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
+  const mouseRef = useRef({ x: 0, y: 0 });
   
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -38,54 +39,96 @@ const AboutIntro = () => {
       canvas.width = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
       canvas.height = window.innerHeight;
       
-      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, '#1a1a2e');
-      gradient.addColorStop(1, '#1a1a2e');
-      
-      ctx.fillStyle = gradient;
+      ctx.fillStyle = '#000000';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-    };
-
-    const drawStar = (x, y, size, opacity) => {
-      ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
-      ctx.beginPath();
-      ctx.rect(x - size/2, y - size/2, size, size);
-      ctx.fill();
     };
 
     const createParticles = () => {
       particles = [];
-      const numParticles = 12;
+      const numParticles = 12; // Reduced count
       
-      for (let i = 0; i < numParticles; i++) {
-        const size = Math.random() * 6 + 2;
-        const opacity = Math.random() * 0.15 + 0.05;
+      // Strategic positions instead of random
+      const positions = [
+        { x: 0.2, y: 0.2 },    // Top left
+        { x: 0.5, y: 0.15 },   // Top center
+        { x: 0.8, y: 0.2 },    // Top right
+        { x: 0.15, y: 0.5 },   // Middle left
+        { x: 0.85, y: 0.5 },   // Middle right
+        { x: 0.2, y: 0.8 },    // Bottom left
+        { x: 0.5, y: 0.85 },   // Bottom center
+        { x: 0.8, y: 0.8 },    // Bottom right
+        { x: 0.35, y: 0.35 },  // Inner top left
+        { x: 0.65, y: 0.35 },  // Inner top right
+        { x: 0.35, y: 0.65 },  // Inner bottom left
+        { x: 0.65, y: 0.65 },  // Inner bottom right
+      ];
+
+      positions.forEach((pos, i) => {
+        const x = pos.x * canvas.width;
+        const y = pos.y * canvas.height;
+        const size = 60; // Fixed larger size
+        const opacity = 0.12; // Very subtle opacity
 
         particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
+          x,
+          y,
           size,
           opacity,
-          speedX: (Math.random() - 0.5) * 0.1,
-          speedY: (Math.random() - 0.5) * 0.1
+          rotation: 0, // No rotation
+          speedX: (Math.random() - 0.5) * 0.05, // Much slower speed
+          speedY: (Math.random() - 0.5) * 0.05,
+          originalX: x,
+          originalY: y
         });
-      }
+      });
+    };
+
+    const drawSquare = (x, y, size, opacity) => {
+      ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+      ctx.fillRect(x - size/2, y - size/2, size, size);
     };
 
     const animate = () => {
-      ctx.fillStyle = '#1a1a2e';
+      ctx.fillStyle = '#000000';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
+      const mouseX = mouseRef.current.x;
+      const mouseY = mouseRef.current.y;
+      
       particles.forEach(particle => {
+        // Very subtle cursor influence
+        if (mouseX && mouseY) {
+          const dx = mouseX - particle.x;
+          const dy = mouseY - particle.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          const maxDistance = 300;
+          
+          if (distance < maxDistance) {
+            const force = (1 - distance / maxDistance) * 0.01; // Reduced force
+            particle.x += dx * force;
+            particle.y += dy * force;
+          }
+        }
+
+        // Gentle return to original position
+        const dx = particle.originalX - particle.x;
+        const dy = particle.originalY - particle.y;
+        particle.x += dx * 0.02;
+        particle.y += dy * 0.02;
+
+        // Very slow natural movement
         particle.x += particle.speedX;
         particle.y += particle.speedY;
 
-        if (particle.x < 0) particle.x = canvas.width;
-        if (particle.x > canvas.width) particle.x = 0;
-        if (particle.y < 0) particle.y = canvas.height;
-        if (particle.y > canvas.height) particle.y = 0;
+        // Keep squares within bounds
+        if (Math.abs(particle.x - particle.originalX) > 100) {
+          particle.speedX *= -1;
+        }
+        if (Math.abs(particle.y - particle.originalY) > 100) {
+          particle.speedY *= -1;
+        }
 
-        drawStar(
+        drawSquare(
           particle.x,
           particle.y,
           particle.size,
@@ -96,13 +139,30 @@ const AboutIntro = () => {
       animationFrameId = requestAnimationFrame(animate);
     };
 
+    const handleMouseMove = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouseRef.current = {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      };
+    };
+
+    const handleMouseLeave = () => {
+      mouseRef.current = { x: 0, y: 0 };
+    };
+
     window.addEventListener('resize', resizeCanvas);
+    canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('mouseleave', handleMouseLeave);
+    
     resizeCanvas();
     createParticles();
     animate();
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
+      canvas.removeEventListener('mousemove', handleMouseMove);
+      canvas.removeEventListener('mouseleave', handleMouseLeave);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
@@ -110,7 +170,7 @@ const AboutIntro = () => {
   return (
     <motion.div 
       ref={sectionRef} 
-      className="relative bg-[#1a1a2e] w-screen -ml-[calc((100vw-100%)/2)]"
+      className="relative bg-black w-screen -ml-[calc((100vw-100%)/2)]"
       style={{ 
         height: '700vh',
       }}
