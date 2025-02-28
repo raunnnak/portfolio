@@ -281,7 +281,7 @@ const AboutIntro = () => {
         <div className="relative z-10 flex items-center justify-center h-full w-screen">
           <div className="max-w-[90rem] mx-auto px-8 relative h-full w-full">
             <div className="absolute top-[25%] left-1/2 -translate-x-1/2 flex items-center gap-1">
-              <span className="text-[0.625rem] tracking-[0.25em] text-white/60 uppercase">← ABOUT →</span>
+              <span className="text-[0.625rem] tracking-[0.25em] text-white/60 uppercase font-['Pixelify_Sans']">← ABOUT →</span>
             </div>
 
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
@@ -298,7 +298,7 @@ const AboutIntro = () => {
             </div>
             
             <div className="absolute bottom-8 right-8 flex items-center gap-4">
-              <span className="text-[11px] tracking-[0.25em] text-gray-400 uppercase font-[350]">
+              <span className="text-[11px] tracking-[0.25em] text-gray-400 uppercase font-['Pixelify_Sans'] font-[300]">
                 SCROLL
               </span>
               <div className="h-[1px] w-12 bg-gradient-to-r from-gray-400 to-transparent" />

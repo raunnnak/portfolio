@@ -1,3 +1,6 @@
+/* Import Pixelify Sans font */
+@import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@300;400;500;600;700&display=swap");
+
 /* eslint-disable */
 @import "tailwindcss/base";
 @import "tailwindcss/components";
