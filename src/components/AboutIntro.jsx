@@ -44,55 +44,53 @@ const AboutIntro = () => {
 
     const createParticles = () => {
       particles = [];
-      const maxWidth = 1280;  // Fixed width for consistent distribution
-      const screenWidth = Math.min(window.innerWidth, maxWidth);
-      const offsetX = (window.innerWidth - screenWidth) / 2;
+      const maxWidth = window.innerWidth;
+      const screenWidth = maxWidth;
+      const offsetX = 0;
       
       const getX = (relativeX) => {
         return offsetX + (relativeX * screenWidth);
       };
 
       const positions = [];
-      const numParticles = 800;  // Increased from 120
-      const numColumns = 25;  // Increased from 12
+      const numParticles = 1200;  // Increased total number of particles
+      const numColumns = 35;  // Slightly increased columns for better distribution
       
       const generatePosition = (index) => {
-        // More even horizontal distribution with more columns
         const column = index % numColumns;
         const row = Math.floor(index / numColumns);
         const baseXSpread = column / (numColumns - 1);
-        const xSpread = baseXSpread * 0.94 + 0.03 + (Math.random() * 0.03 - 0.015); // Adjusted margins and random offset
+        const xSpread = baseXSpread * 0.98 + 0.01 + (Math.random() * 0.02 - 0.01);
         
-        // More even vertical distribution with increased range
-        const yBase = 1.2 + (row / (numParticles / numColumns)) * 25; // Increased vertical range
+        const yBase = 0.8 + (row / (numParticles / numColumns)) * 35;
         
-        // Create more varied size distribution
+        // Adjusted size distribution to favor smaller particles
         let size;
         const sizeRandom = Math.random();
-        if (sizeRandom < 0.3) {
-          // Extra small squares (2-6px) - increased frequency
+        if (sizeRandom < 0.45) {  // Increased probability for extra small (was 0.3)
+          // Extra small squares (2-6px)
           size = Math.random() * 4 + 2;
-        } else if (sizeRandom < 0.6) {
-          // Small squares (6-12px) - increased frequency
+        } else if (sizeRandom < 0.75) {  // Increased probability for small (was 0.6)
+          // Small squares (6-12px)
           size = Math.random() * 6 + 6;
-        } else if (sizeRandom < 0.85) {
+        } else if (sizeRandom < 0.9) {  // Reduced medium (was 0.85)
           // Medium squares (12-20px)
           size = Math.random() * 8 + 12;
-        } else {
+        } else {  // Reduced large
           // Large squares (20-28px)
           size = Math.random() * 6 + 20;
         }
         
         return {
           x: xSpread,
-          y: yBase + Math.random() * 1.8, // Increased random vertical offset
+          y: yBase + Math.random() * 1.2,
           size: Math.round(size),
-          opacity: 0.6 + Math.random() * 0.35,
-          delay: (index * (6.5 / numParticles)) * 0.7, // Adjusted delay for more particles
+          opacity: 0.5 + Math.random() * 0.4,  // Slightly adjusted opacity range
+          delay: (index * (6.5 / numParticles)) * 0.7,
           rotation: Math.random() * 360,
           rotationSpeed: (Math.random() - 0.5) * 0.3,
-          floatAmplitude: Math.random() * 25 + 8,
-          floatSpeed: Math.random() * 0.003 + 0.0008,
+          floatAmplitude: Math.random() * 20 + 5,
+          floatSpeed: Math.random() * 0.002 + 0.0006,
           floatOffset: Math.random() * Math.PI * 2,
           scaleRange: 0.1 + Math.random() * 0.15
         };
@@ -273,34 +271,56 @@ const AboutIntro = () => {
         <motion.div className="absolute inset-0 w-full overflow-visible">
           <motion.canvas
             ref={canvasRef}
-            className="absolute top-0 left-0 w-screen h-full"
+            className="absolute top-0 left-0 w-full h-full"
             style={{ y: backgroundY }}
           />
         </motion.div>
         
-        <div className="relative z-10 flex items-center justify-center h-full w-screen">
+        <div className="relative z-10 flex items-center justify-center h-full w-full">
           <div className="max-w-[90rem] mx-auto px-8 relative h-full w-full">
-            <div className="absolute top-[25%] left-1/2 -translate-x-1/2 flex items-center gap-1">
-              <span className="text-[0.625rem] tracking-[0.25em] text-white/60 uppercase font-['Pixelify_Sans']">← ABOUT →</span>
+            <div className="absolute top-[35%] left-1/2 -translate-x-1/2 flex items-center gap-1">
+              <motion.span 
+                className="text-[0.625rem] tracking-[0.25em] text-white/60 uppercase font-['Pixelify_Sans']"
+                animate={{
+                  y: [-5, 5],
+                }}
+                transition={{
+                  duration: 1.2,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  ease: "easeInOut"
+                }}
+              >&#123; ABOUT &#125;</motion.span>
             </div>
 
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
-              <h2 className="text-[2rem] md:text-[2.75rem] lg:text-[3.5rem] font-[200] text-white tracking-[-0.02em] leading-[1.15] text-center max-w-[75rem] mx-auto">
-                I pair strong <span className="font-serif italic font-medium">visual design</span> skills with a<br />
-                focus on <span className="font-serif italic font-medium">user-centered</span> design.
+              <h2 className="text-[2rem] md:text-[2.75rem] lg:text-[3.5rem] font-[200] text-white/100 tracking-[-0.02em] leading-[1.15] text-center max-w-[75rem] mx-auto">
+                I pair strong <span className="font-['Cormorant'] italic font-[700] text-white text-[2.5rem] md:text-[3.25rem] lg:text-[4rem] tracking-[-0.02em]">visual design</span> skills with a<br />
+                focus on <span className="font-['Cormorant'] italic font-[700] text-white text-[2.5rem] md:text-[3.25rem] lg:text-[4rem] tracking-[-0.02em]">user-centered</span> design.
               </h2>
             </div>
 
             <div className="absolute top-[59%] left-1/2 -translate-x-1/2 w-full">
               <p className="text-xs md:text-sm text-gray-400 font-[200] tracking-[-0.01em] text-center max-w-[50rem] mx-auto whitespace-nowrap">
-                Your brand deserves a <span className="font-serif italic">story</span> and an <span className="font-serif italic">identity</span>. I make sure they're both compelling.
+                Your brand deserves a <span className="font-['Cormorant'] italic font-[700] text-[1.25em] tracking-[-0.02em]">story</span> and an <span className="font-['Cormorant'] italic font-[700] text-[1.25em] tracking-[-0.02em]">identity</span>. I make sure they're both compelling.
               </p>
             </div>
             
             <div className="absolute bottom-8 right-8 flex items-center gap-4">
-              <span className="text-[11px] tracking-[0.25em] text-gray-400 uppercase font-['Pixelify_Sans'] font-[300]">
+              <motion.span 
+                className="text-[11px] tracking-[0.25em] text-gray-400 uppercase font-['Pixelify_Sans'] font-[300] inline-block"
+                animate={{
+                  y: [-10, 10],
+                }}
+                transition={{
+                  duration: 1,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  ease: "easeInOut"
+                }}
+              >
                 SCROLL
-              </span>
+              </motion.span>
               <div className="h-[1px] w-12 bg-gradient-to-r from-gray-400 to-transparent" />
             </div>
           </div>
