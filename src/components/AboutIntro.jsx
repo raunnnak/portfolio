@@ -256,6 +256,7 @@ const AboutIntro = () => {
   return (
     <motion.div 
       ref={sectionRef} 
+      data-section="about-intro"
       className="relative bg-black w-screen -ml-[calc((100vw-100%)/2)]"
       style={{ 
         height: '700vh',

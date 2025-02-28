@@ -240,6 +240,7 @@ const ServicesSection = () => {
   const [isPaused, setIsPaused] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isOverFooter, setIsOverFooter] = useState(false);
+  const [isAfterAboutIntro, setIsAfterAboutIntro] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -258,6 +259,13 @@ const ServicesSection = () => {
         const footerRect = footer.getBoundingClientRect();
         const isOverFooter = footerRect.top <= window.innerHeight - 60; // 60px offset for button position
         setIsOverFooter(isOverFooter);
+      }
+
+      // Check if we've scrolled past AboutIntro section
+      const aboutIntroSection = document.querySelector('[data-section="about-intro"]');
+      if (aboutIntroSection) {
+        const aboutIntroRect = aboutIntroSection.getBoundingClientRect();
+        setIsAfterAboutIntro(aboutIntroRect.bottom < 0);
       }
       
       if (isStuck !== isHeaderStuck) {
@@ -354,28 +362,30 @@ const ServicesSection = () => {
       </div>
 
       {/* Scroll/Back to Top Button */}
-      <div className="fixed bottom-8 right-8 flex items-center gap-4 z-50">
-        <motion.button
-          onClick={showBackToTop ? scrollToTop : undefined}
-          className={`text-[11px] tracking-[0.25em] uppercase font-['Pixelify_Sans'] font-[300] inline-block cursor-pointer transition-colors duration-300 ${
-            isOverFooter ? 'text-white' : 'text-black'
-          }`}
-          animate={{
-            y: [-10, 10],
-          }}
-          transition={{
-            duration: 1,
-            repeat: Infinity,
-            repeatType: "reverse",
-            ease: "easeInOut"
-          }}
-        >
-          {showBackToTop ? "BACK TO TOP" : "SCROLL"}
-        </motion.button>
-        <div className={`h-[1px] w-12 bg-gradient-to-r transition-colors duration-300 ${
-          isOverFooter ? 'from-white' : 'from-black'
-        } to-transparent`} />
-      </div>
+      {isAfterAboutIntro && (
+        <div className="fixed bottom-8 right-8 flex items-center gap-4 z-50">
+          <motion.button
+            onClick={showBackToTop ? scrollToTop : undefined}
+            className={`text-[11px] tracking-[0.25em] uppercase font-['Pixelify_Sans'] font-[300] inline-block cursor-pointer transition-colors duration-300 ${
+              isOverFooter ? 'text-white' : 'text-black'
+            }`}
+            animate={{
+              y: [-10, 10],
+            }}
+            transition={{
+              duration: 1,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut"
+            }}
+          >
+            {showBackToTop ? "BACK TO TOP" : "SCROLL"}
+          </motion.button>
+          <div className={`h-[1px] w-12 bg-gradient-to-r transition-colors duration-300 ${
+            isOverFooter ? 'from-white' : 'from-black'
+          } to-transparent`} />
+        </div>
+      )}
     </section>
   );
 };
