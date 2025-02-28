@@ -293,8 +293,8 @@ const AboutIntro = () => {
 
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
               <h2 className="text-[2.5rem] md:text-[3.5rem] lg:text-[4.5rem] font-[200] text-white/100 tracking-[-0.02em] leading-[1.15] text-center max-w-[100rem] mx-auto">
-                I pair strong <span className="font-['Cormorant'] italic font-[700] text-white text-[3rem] md:text-[4rem] lg:text-[5rem] tracking-[0.02em]">visual design</span> skills with a<br />
-                focus on <span className="font-['Cormorant'] italic font-[700] text-white text-[3rem] md:text-[4rem] lg:text-[5rem] tracking-[0.02em]">user-centered</span> design.
+                I pair curated <span className="font-['Cormorant'] italic font-[700] text-white text-[3rem] md:text-[4rem] lg:text-[5rem] tracking-[0.02em]">visual storytelling</span> with<br />
+                a focus on <span className="font-['Cormorant'] italic font-[700] text-white text-[3rem] md:text-[4rem] lg:text-[5rem] tracking-[0.02em]">user-centered</span> design.
               </h2>
             </div>
 

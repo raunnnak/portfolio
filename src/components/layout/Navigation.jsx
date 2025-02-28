@@ -61,7 +61,7 @@ const Navigation = () => {
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 bg-transparent border-b ${borderColor} w-screen transition-colors duration-300`}>
-      <div className="max-w-[120rem] mx-auto px-12">
+      <div className="max-w-[120rem] mx-auto pr-12">
         <div className="flex justify-between items-center h-12">
           {/* Logo */}
           <Link 
@@ -166,7 +166,7 @@ const Navigation = () => {
                   <Link
                     key={item.number}
                     to={item.path}
-                    className="flex items-center space-x-3 py-3 px-12 relative"
+                    className="flex items-center space-x-3 py-3 pl-0 relative"
                     onClick={() => setIsOpen(false)}
                   >
                     <span className="font-serif italic text-base text-neutral-400">{item.number}</span>
