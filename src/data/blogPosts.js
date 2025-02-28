@@ -587,5 +587,388 @@ self.addEventListener('fetch', event => {
       { id: 'tag14', name: 'Optimization', slug: 'optimization' },
       { id: 'tag15', name: 'Web Development', slug: 'web-development' }
     ]
+  },
+  {
+    id: '6',
+    title: 'React Server Components: A Complete Guide for 2024',
+    slug: 'react-server-components-guide-2024',
+    excerpt: 'Master React Server Components and learn how they revolutionize web application architecture with improved performance and developer experience.',
+    content: `# React Server Components: A Complete Guide for 2024
+
+Learn how Server Components are changing the way we build React applications, offering better performance and developer experience.
+
+## Understanding Server Components
+
+### What Are Server Components?
+Server Components allow you to write UI that runs and renders on the server:
+
+\`\`\`jsx
+// PostList.server.jsx
+async function PostList() {
+  const posts = await db.posts.findMany();
+  
+  return (
+    <ul>
+      {posts.map(post => (
+        <PostItem key={post.id} post={post} />
+      ))}
+    </ul>
+  );
+}
+\`\`\`
+
+### Key Benefits
+1. Reduced bundle size
+2. Faster page loads
+3. Direct backend access
+4. Better SEO
+
+## Implementation Patterns
+
+### Data Fetching
+\`\`\`jsx
+// BlogPost.server.jsx
+async function BlogPost({ id }) {
+  const post = await db.post.findUnique({ where: { id } });
+  return <Article post={post} />;
+}
+\`\`\`
+
+### Streaming
+\`\`\`jsx
+// Layout.server.jsx
+import { Suspense } from 'react';
+
+function Layout() {
+  return (
+    <main>
+      <nav>...</nav>
+      <Suspense fallback={<Loading />}>
+        <Content />
+      </Suspense>
+    </main>
+  );
+}
+\`\`\`
+
+## Best Practices
+
+1. Component Organization
+2. Error Handling
+3. Performance Optimization
+4. State Management
+
+## Migration Strategy
+
+| Feature | Server Component | Client Component |
+|---------|-----------------|------------------|
+| Data Fetching | ✅ | ❌ |
+| Interactivity | ❌ | ✅ |
+| Backend Access | ✅ | ❌ |
+
+## Future of React
+
+1. Automatic optimization
+2. Better tooling
+3. Framework integration`,
+    coverImage: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1600&q=80',
+    publishedAt: '2024-02-24',
+    readingTime: 10,
+    author: {
+      id: 'author1',
+      name: 'John Doe',
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop',
+      bio: 'Senior Web Developer'
+    },
+    category: {
+      id: 'cat1',
+      name: 'Web Development',
+      slug: 'web-development'
+    },
+    tags: [
+      { id: 'tag2', name: 'React', slug: 'react' },
+      { id: 'tag3', name: 'JavaScript', slug: 'javascript' },
+      { id: 'tag16', name: 'Server Components', slug: 'server-components' }
+    ]
+  },
+  {
+    id: '7',
+    title: 'Advanced TypeScript Design Patterns for Enterprise Applications',
+    slug: 'advanced-typescript-design-patterns-enterprise',
+    excerpt: 'Explore enterprise-level TypeScript design patterns that improve code maintainability, scalability, and team collaboration.',
+    content: `# Advanced TypeScript Design Patterns for Enterprise Applications
+
+Learn how to implement robust design patterns in TypeScript for large-scale applications.
+
+## Factory Pattern Implementation
+
+\`\`\`typescript
+interface Product {
+  name: string;
+  execute(): void;
+}
+
+class ConcreteProductA implements Product {
+  name = 'Product A';
+  execute() {
+    console.log('Executing Product A');
+  }
+}
+
+class ProductFactory {
+  static createProduct(type: string): Product {
+    switch (type) {
+      case 'A':
+        return new ConcreteProductA();
+      default:
+        throw new Error('Invalid product type');
+    }
+  }
+}
+\`\`\`
+
+## Dependency Injection
+
+\`\`\`typescript
+interface ILogger {
+  log(message: string): void;
+}
+
+class Logger implements ILogger {
+  log(message: string): void {
+    console.log(message);
+  }
+}
+
+class UserService {
+  constructor(private logger: ILogger) {}
+  
+  createUser(name: string) {
+    this.logger.log(\`Creating user: \${name}\`);
+  }
+}
+\`\`\`
+
+## Observer Pattern
+
+\`\`\`typescript
+interface Observer {
+  update(data: any): void;
+}
+
+class Subject {
+  private observers: Observer[] = [];
+  
+  attach(observer: Observer): void {
+    this.observers.push(observer);
+  }
+  
+  notify(data: any): void {
+    this.observers.forEach(observer => observer.update(data));
+  }
+}
+\`\`\`
+
+## Best Practices
+
+1. SOLID Principles
+2. Clean Architecture
+3. Error Handling
+4. Testing Strategies
+
+## Performance Considerations
+
+| Pattern | Memory Impact | CPU Impact |
+|---------|--------------|------------|
+| Factory | Low | Low |
+| Singleton | Very Low | Very Low |
+| Observer | Medium | Medium |
+
+## Advanced Topics
+
+### Generic Constraints
+\`\`\`typescript
+interface HasId {
+  id: string | number;
+}
+
+class Repository<T extends HasId> {
+  findById(id: T['id']): T | undefined {
+    // Implementation
+    return undefined;
+  }
+}
+\`\`\`
+
+### Decorators
+\`\`\`typescript
+function log(target: any, key: string) {
+  // Method decorator implementation
+}
+
+class Example {
+  @log
+  method() {}
+}
+\`\`\`
+
+## Testing Patterns
+
+1. Unit Testing
+2. Integration Testing
+3. E2E Testing
+4. Property Testing`,
+    coverImage: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=1600&q=80',
+    publishedAt: '2024-02-23',
+    readingTime: 15,
+    author: {
+      id: 'author1',
+      name: 'John Doe',
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop',
+      bio: 'Senior Web Developer'
+    },
+    category: {
+      id: 'cat3',
+      name: 'TypeScript',
+      slug: 'typescript'
+    },
+    tags: [
+      { id: 'tag7', name: 'TypeScript', slug: 'typescript' },
+      { id: 'tag8', name: 'Programming', slug: 'programming' },
+      { id: 'tag17', name: 'Design Patterns', slug: 'design-patterns' }
+    ]
+  },
+  {
+    id: '8',
+    title: 'Modern CSS Layout Techniques: From Grid to Container Queries',
+    slug: 'modern-css-layout-techniques-2024',
+    excerpt: 'Discover the latest CSS layout techniques including CSS Grid, Flexbox, Container Queries, and modern responsive design patterns.',
+    content: `# Modern CSS Layout Techniques: From Grid to Container Queries
+
+Master modern CSS layout techniques to create responsive and maintainable designs.
+
+## CSS Grid Layout
+
+### Complex Grid Patterns
+\`\`\`css
+.grid-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 2rem;
+}
+
+.featured {
+  grid-column: 1 / -1;
+  grid-row: span 2;
+}
+\`\`\`
+
+## Container Queries
+
+### Responsive Components
+\`\`\`css
+@container card (min-width: 400px) {
+  .card-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.card {
+  container-type: inline-size;
+  container-name: card;
+}
+\`\`\`
+
+## Modern Flexbox
+
+### Advanced Patterns
+\`\`\`css
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.flex-item {
+  flex: 1 1 300px;
+}
+\`\`\`
+
+## Layout Patterns
+
+1. Holy Grail Layout
+2. Card Layouts
+3. Magazine Layouts
+4. App Shells
+
+## Responsive Design
+
+| Technique | Browser Support | Use Case |
+|-----------|----------------|----------|
+| Grid | Excellent | Overall Layout |
+| Flexbox | Excellent | Component Layout |
+| Container Queries | Good | Component-based Design |
+
+## Best Practices
+
+* Semantic HTML
+* Progressive Enhancement
+* Performance Optimization
+* Accessibility
+
+## Advanced Techniques
+
+### Custom Properties
+\`\`\`css
+:root {
+  --grid-columns: 12;
+}
+
+.grid {
+  grid-template-columns: 
+    repeat(var(--grid-columns), 1fr);
+}
+\`\`\`
+
+### Subgrid
+\`\`\`css
+.parent {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.child {
+  grid-column: span 3;
+  display: grid;
+  grid-template-columns: subgrid;
+}
+\`\`\`
+
+## Performance Tips
+
+1. Content-visibility
+2. Will-change
+3. Transform layers
+4. Paint containment`,
+    coverImage: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1600&q=80',
+    publishedAt: '2024-02-22',
+    readingTime: 12,
+    author: {
+      id: 'author3',
+      name: 'Sarah Johnson',
+      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop',
+      bio: 'UI/UX Design Lead'
+    },
+    category: {
+      id: 'cat4',
+      name: 'Design',
+      slug: 'design'
+    },
+    tags: [
+      { id: 'tag10', name: 'UI', slug: 'ui' },
+      { id: 'tag18', name: 'CSS', slug: 'css' },
+      { id: 'tag9', name: 'Web Development', slug: 'web-development' }
+    ]
   }
 ]; 
