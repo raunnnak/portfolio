@@ -98,19 +98,19 @@ const ContactServiceCard = ({ index, isLight = false }) => {
           }`}
         >
           {/* Subtle serif number */}
-          <span className="absolute top-8 left-12 font-serif italic text-2xl text-neutral-300">
+          <span className="absolute top-8 left-12 font-['Cormorant'] italic font-[700] text-[2rem] text-neutral-300 opacity-60">
             {number}
           </span>
 
           <div className="relative mt-8">
-            <h3 className={`text-3xl md:text-4xl font-light mb-6 transition-all duration-500 ${
+            <h3 className={`text-3xl md:text-4xl font-[200] mb-6 transition-all duration-500 ${
               isLight 
                 ? 'text-neutral-900 group-hover:translate-x-2' 
                 : 'text-white'
             }`}>
               Get in touch
             </h3>
-            <p className={`text-lg md:text-xl font-light mb-12 ${
+            <p className={`text-lg md:text-xl font-[200] mb-12 ${
               isLight ? 'text-neutral-600' : 'text-neutral-500'
             }`}>
               Have a project in mind? Let's create something exceptional together.
@@ -124,7 +124,7 @@ const ContactServiceCard = ({ index, isLight = false }) => {
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Your name"
-                  className={`w-full bg-transparent py-4 text-lg font-light transition-all duration-300 ${
+                  className={`w-full bg-transparent py-4 text-lg font-[200] transition-all duration-300 ${
                     isLight 
                       ? 'border-b-2 border-neutral-200 placeholder:text-neutral-400 focus:border-neutral-400' 
                       : 'border-b border-neutral-800 placeholder:text-neutral-600 focus:border-neutral-600'
@@ -140,7 +140,7 @@ const ContactServiceCard = ({ index, isLight = false }) => {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Your email"
-                  className={`w-full bg-transparent py-4 text-lg font-light transition-all duration-300 ${
+                  className={`w-full bg-transparent py-4 text-lg font-[200] transition-all duration-300 ${
                     isLight 
                       ? 'border-b-2 border-neutral-200 placeholder:text-neutral-400 focus:border-neutral-400' 
                       : 'border-b border-neutral-800 placeholder:text-neutral-600 focus:border-neutral-600'
@@ -156,7 +156,7 @@ const ContactServiceCard = ({ index, isLight = false }) => {
                   onChange={handleChange}
                   placeholder="Tell me about your project"
                   rows={4}
-                  className={`w-full bg-transparent py-4 text-lg font-light resize-none transition-all duration-300 ${
+                  className={`w-full bg-transparent py-4 text-lg font-[200] resize-none transition-all duration-300 ${
                     isLight 
                       ? 'border-b-2 border-neutral-200 placeholder:text-neutral-400 focus:border-neutral-400' 
                       : 'border-b border-neutral-800 placeholder:text-neutral-600 focus:border-neutral-600'
@@ -170,7 +170,7 @@ const ContactServiceCard = ({ index, isLight = false }) => {
                 disabled={isSubmitting}
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
-                className={`mt-12 px-8 py-4 rounded-xl text-base uppercase tracking-wider font-light transition-all duration-300 disabled:opacity-50 ${
+                className={`mt-12 px-8 py-4 rounded-xl text-base uppercase tracking-wider font-[200] transition-all duration-300 disabled:opacity-50 ${
                   isLight 
                     ? 'bg-neutral-900 text-white hover:bg-neutral-800' 
                     : 'bg-white text-neutral-900 hover:bg-neutral-100'

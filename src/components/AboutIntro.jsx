@@ -278,7 +278,7 @@ const AboutIntro = () => {
           <div className="max-w-[90rem] mx-auto px-8 relative h-full w-full">
             <div className="absolute top-[35%] left-1/2 -translate-x-1/2 flex items-center gap-1">
               <motion.span 
-                className="text-[0.625rem] tracking-[0.25em] text-white/60 uppercase font-['Pixelify_Sans']"
+                className="text-[0.75rem] tracking-[0.25em] text-white/60 uppercase font-['Pixelify_Sans']"
                 animate={{
                   y: [-5, 5],
                 }}
@@ -292,15 +292,15 @@ const AboutIntro = () => {
             </div>
 
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
-              <h2 className="text-[2rem] md:text-[2.75rem] lg:text-[3.5rem] font-[200] text-white/100 tracking-[-0.02em] leading-[1.15] text-center max-w-[75rem] mx-auto">
-                I pair strong <span className="font-['Cormorant'] italic font-[700] text-white text-[2.5rem] md:text-[3.25rem] lg:text-[4rem] tracking-[-0.02em]">visual design</span> skills with a<br />
-                focus on <span className="font-['Cormorant'] italic font-[700] text-white text-[2.5rem] md:text-[3.25rem] lg:text-[4rem] tracking-[-0.02em]">user-centered</span> design.
+              <h2 className="text-[2.5rem] md:text-[3.5rem] lg:text-[4.5rem] font-[200] text-white/100 tracking-[-0.02em] leading-[1.15] text-center max-w-[100rem] mx-auto">
+                I pair strong <span className="font-['Cormorant'] italic font-[700] text-white text-[3rem] md:text-[4rem] lg:text-[5rem] tracking-[0.02em]">visual design</span> skills with a<br />
+                focus on <span className="font-['Cormorant'] italic font-[700] text-white text-[3rem] md:text-[4rem] lg:text-[5rem] tracking-[0.02em]">user-centered</span> design.
               </h2>
             </div>
 
-            <div className="absolute top-[59%] left-1/2 -translate-x-1/2 w-full">
-              <p className="text-xs md:text-sm text-gray-400 font-[200] tracking-[-0.01em] text-center max-w-[50rem] mx-auto whitespace-nowrap">
-                Your brand deserves a <span className="font-['Cormorant'] italic font-[700] text-[1.25em] tracking-[-0.02em]">story</span> and an <span className="font-['Cormorant'] italic font-[700] text-[1.25em] tracking-[-0.02em]">identity</span>. I make sure they're both compelling.
+            <div className="absolute top-[62%] left-1/2 -translate-x-1/2 w-full">
+              <p className="text-xs md:text-sm text-gray-400 font-[200] tracking-[-0.01em] text-center max-w-[65rem] mx-auto whitespace-nowrap">
+                Your brand deserves a <span className="font-['Cormorant'] italic font-[700] text-[1.35em] tracking-[0.03em]">story</span> and an <span className="font-['Cormorant'] italic font-[700] text-[1.35em] tracking-[0.03em]">identity</span>. I make sure they're both compelling.
               </p>
             </div>
             
