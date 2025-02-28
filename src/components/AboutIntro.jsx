@@ -19,8 +19,8 @@ const AboutIntro = () => {
 
   const backgroundY = useTransform(
     backgroundProgress,
-    [0, 0.95, 1],
-    ["0%", "-100%", "-150%"]
+    [0, 0.85, 0.95],  // Adjusted timing points
+    ["0%", "-50%", "-150%"]  // Adjusted movement values
   );
 
   const opacity = useTransform(
@@ -44,57 +44,64 @@ const AboutIntro = () => {
 
     const createParticles = () => {
       particles = [];
-      const maxWidth = 1280;
+      const maxWidth = 1280;  // Fixed width for consistent distribution
       const screenWidth = Math.min(window.innerWidth, maxWidth);
       const offsetX = (window.innerWidth - screenWidth) / 2;
       
-      // Calculate x positions relative to max width
       const getX = (relativeX) => {
         return offsetX + (relativeX * screenWidth);
       };
+
+      const positions = [];
+      const numParticles = 800;  // Increased from 120
+      const numColumns = 25;  // Increased from 12
       
-      // Square configurations with wider distribution
-      const positions = [
-        // Large squares (24-28px)
-        { x: 0.05, y: 1.2, size: 28, opacity: 0.95, delay: 0 },
-        { x: 0.95, y: 1.3, size: 28, opacity: 0.92, delay: 0.1 },
-        { x: 0.25, y: 1.4, size: 26, opacity: 0.90, delay: 0.2 },
-        { x: 0.75, y: 1.5, size: 26, opacity: 0.88, delay: 0.3 },
-        { x: 0.15, y: 1.6, size: 24, opacity: 0.86, delay: 0.4 },
-        { x: 0.85, y: 1.7, size: 24, opacity: 0.84, delay: 0.5 },
-        { x: 0.45, y: 1.8, size: 24, opacity: 0.95, delay: 0.6 },
-        { x: 0.55, y: 1.9, size: 24, opacity: 0.92, delay: 0.7 },
+      const generatePosition = (index) => {
+        // More even horizontal distribution with more columns
+        const column = index % numColumns;
+        const row = Math.floor(index / numColumns);
+        const baseXSpread = column / (numColumns - 1);
+        const xSpread = baseXSpread * 0.94 + 0.03 + (Math.random() * 0.03 - 0.015); // Adjusted margins and random offset
         
-        // Medium squares (18-22px)
-        { x: 0.1, y: 2.0, size: 22, opacity: 0.95, delay: 0.8 },
-        { x: 0.9, y: 2.1, size: 22, opacity: 0.92, delay: 0.9 },
-        { x: 0.3, y: 2.2, size: 20, opacity: 0.90, delay: 1.0 },
-        { x: 0.7, y: 2.3, size: 20, opacity: 0.88, delay: 1.1 },
-        { x: 0.2, y: 2.4, size: 18, opacity: 0.86, delay: 1.2 },
-        { x: 0.8, y: 2.5, size: 18, opacity: 0.84, delay: 1.3 },
-        { x: 0.4, y: 2.6, size: 18, opacity: 0.95, delay: 1.4 },
-        { x: 0.6, y: 2.7, size: 18, opacity: 0.92, delay: 1.5 },
+        // More even vertical distribution with increased range
+        const yBase = 1.2 + (row / (numParticles / numColumns)) * 25; // Increased vertical range
         
-        // Small squares (12-16px)
-        { x: 0.02, y: 2.8, size: 16, opacity: 0.95, delay: 1.6 },
-        { x: 0.98, y: 2.9, size: 16, opacity: 0.92, delay: 1.7 },
-        { x: 0.35, y: 3.0, size: 14, opacity: 0.90, delay: 1.8 },
-        { x: 0.65, y: 3.1, size: 14, opacity: 0.88, delay: 1.9 },
-        { x: 0.15, y: 3.2, size: 12, opacity: 0.86, delay: 2.0 },
-        { x: 0.85, y: 3.3, size: 12, opacity: 0.84, delay: 2.1 },
+        // Create more varied size distribution
+        let size;
+        const sizeRandom = Math.random();
+        if (sizeRandom < 0.3) {
+          // Extra small squares (2-6px) - increased frequency
+          size = Math.random() * 4 + 2;
+        } else if (sizeRandom < 0.6) {
+          // Small squares (6-12px) - increased frequency
+          size = Math.random() * 6 + 6;
+        } else if (sizeRandom < 0.85) {
+          // Medium squares (12-20px)
+          size = Math.random() * 8 + 12;
+        } else {
+          // Large squares (20-28px)
+          size = Math.random() * 6 + 20;
+        }
         
-        // Additional squares for better coverage
-        { x: 0.08, y: 3.4, size: 20, opacity: 0.95, delay: 2.2 },
-        { x: 0.92, y: 3.5, size: 18, opacity: 0.92, delay: 2.3 },
-        { x: 0.22, y: 3.6, size: 16, opacity: 0.90, delay: 2.4 },
-        { x: 0.78, y: 3.7, size: 16, opacity: 0.88, delay: 2.5 },
-        { x: 0.48, y: 3.8, size: 14, opacity: 0.86, delay: 2.6 },
-        { x: 0.52, y: 3.9, size: 14, opacity: 0.84, delay: 2.7 },
-        { x: 0.12, y: 4.0, size: 22, opacity: 0.95, delay: 2.8 },
-        { x: 0.88, y: 4.1, size: 20, opacity: 0.92, delay: 2.9 },
-        { x: 0.32, y: 4.2, size: 18, opacity: 0.90, delay: 3.0 },
-        { x: 0.68, y: 4.3, size: 16, opacity: 0.88, delay: 3.1 }
-      ];
+        return {
+          x: xSpread,
+          y: yBase + Math.random() * 1.8, // Increased random vertical offset
+          size: Math.round(size),
+          opacity: 0.6 + Math.random() * 0.35,
+          delay: (index * (6.5 / numParticles)) * 0.7, // Adjusted delay for more particles
+          rotation: Math.random() * 360,
+          rotationSpeed: (Math.random() - 0.5) * 0.3,
+          floatAmplitude: Math.random() * 25 + 8,
+          floatSpeed: Math.random() * 0.003 + 0.0008,
+          floatOffset: Math.random() * Math.PI * 2,
+          scaleRange: 0.1 + Math.random() * 0.15
+        };
+      };
+
+      // Generate particles with better distribution
+      for (let i = 0; i < numParticles; i++) {
+        positions.push(generatePosition(i));
+      }
 
       positions.forEach((pos) => {
         const x = getX(pos.x);
@@ -103,22 +110,34 @@ const AboutIntro = () => {
         particles.push({
           x,
           y,
-          targetY: y - canvas.height * 2.5, // Increased movement range for longer emergence
+          targetY: y - canvas.height * 6, // Increased range for more particles
           size: pos.size,
           opacity: pos.opacity,
           delay: pos.delay,
           originalX: x,
-          originalY: y - canvas.height * 2.5,
-          speedX: (Math.random() - 0.5) * 0.1,
-          speedY: (Math.random() - 0.5) * 0.1,
-          progress: 0
+          originalY: y - canvas.height * 6, // Match the increased range
+          rotation: pos.rotation,
+          rotationSpeed: pos.rotationSpeed,
+          floatAmplitude: pos.floatAmplitude,
+          floatSpeed: pos.floatSpeed,
+          floatOffset: pos.floatOffset,
+          scaleRange: pos.scaleRange,
+          speedX: (Math.random() - 0.5) * 0.2,
+          speedY: (Math.random() - 0.5) * 0.2,
+          progress: 0,
+          time: 0
         });
       });
     };
 
-    const drawSquare = (x, y, size, opacity) => {
+    const drawSquare = (x, y, size, opacity, rotation, scale = 1) => {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(rotation * Math.PI / 180);
+      ctx.scale(scale, scale);
       ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
-      ctx.fillRect(x - size/2, y - size/2, size, size);
+      ctx.fillRect(-size/2, -size/2, size, size);
+      ctx.restore();
     };
 
     const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
@@ -130,51 +149,79 @@ const AboutIntro = () => {
       const mouseX = mouseRef.current.x;
       const mouseY = mouseRef.current.y;
       
-      // Calculate scroll progress for extended emergence
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       const scrollHeight = Math.max(
         document.documentElement.scrollHeight,
         document.body.scrollHeight
       ) - window.innerHeight;
       
-      // Adjust scroll progress calculation for longer emergence
-      const scrollProgress = Math.min(1, scrollTop / (scrollHeight * 0.85));
+      // Get current opacity of the section for sync
+      const currentOpacity = opacity.get();
+      
+      // Keep emergence going until text is completely gone
+      const scrollProgress = Math.min(1, scrollTop / scrollHeight);
       
       particles.forEach(particle => {
-        // Update progress for extended emergence
-        const particleProgress = Math.max(0, Math.min(1, (scrollProgress * 1.8 - particle.delay * 0.4)));
+        particle.time += 0.016;
+        
+        // Calculate base emergence progress
+        let particleProgress;
+        
+        if (currentOpacity === 1) {
+          // Faster scroll through particles
+          particleProgress = Math.max(0, Math.min(1, scrollProgress * 2.2 - particle.delay * 0.3));
+        } else if (currentOpacity === 0) {
+          particleProgress = 0;
+        } else {
+          const emergenceProgress = Math.max(0, Math.min(1, scrollProgress * 2.2 - particle.delay * 0.3));
+          particleProgress = Math.max(emergenceProgress, particle.progress);
+        }
+        
         particle.progress = particleProgress;
         
-        // Calculate emergence position from bottom
+        // Calculate emergence position with floating motion
         const startY = canvas.height + particle.size;
         const targetY = particle.targetY;
-        const currentY = startY - (startY - targetY) * easeOutCubic(particleProgress);
+        const baseY = startY - (startY - targetY) * easeOutCubic(particleProgress);
+        
+        // Add floating motion
+        const floatY = Math.sin(particle.time * particle.floatSpeed + particle.floatOffset) * particle.floatAmplitude;
+        const floatX = Math.cos(particle.time * particle.floatSpeed * 1.5 + particle.floatOffset) * particle.floatAmplitude;
+        
+        // Update rotation
+        particle.rotation += particle.rotationSpeed;
+        
+        // Calculate scale based on time
+        const scale = 1 + Math.sin(particle.time * 0.001) * particle.scaleRange;
 
-        // Very subtle cursor influence
+        // Enhanced cursor interaction
         if (mouseX && mouseY) {
-          const dx = mouseX - particle.x;
-          const dy = mouseY - currentY;
+          const dx = mouseX - (particle.x + floatX);
+          const dy = mouseY - (baseY + floatY);
           const distance = Math.sqrt(dx * dx + dy * dy);
           const maxDistance = 400;
           
           if (distance < maxDistance) {
-            const force = (1 - distance / maxDistance) * 0.015;
+            const force = (1 - distance / maxDistance) * 0.03;
             particle.x += dx * force;
+            baseY += dy * force;
           }
         }
 
-        // Return to original position
-        const returnSpeed = 0.02;
+        // Return to original position with inertia
+        const returnSpeed = 0.015;
         particle.x += (particle.originalX - particle.x) * returnSpeed;
 
-        // Only draw if in view and within max width
+        // Only draw if in progress
         if (particleProgress > 0) {
           const fadeInProgress = Math.min(1, particleProgress * 2);
           drawSquare(
-            particle.x,
-            currentY,
+            particle.x + floatX,
+            baseY + floatY,
             particle.size,
-            particle.opacity * fadeInProgress
+            particle.opacity * fadeInProgress * currentOpacity,
+            particle.rotation,
+            scale
           );
         }
       });
@@ -220,10 +267,10 @@ const AboutIntro = () => {
     >
       <motion.div
         ref={containerRef}
-        className="sticky top-0 h-screen w-full overflow-hidden"
+        className="sticky top-0 h-screen w-full overflow-visible"
         style={{ opacity }}
       >
-        <motion.div className="absolute inset-0 w-full">
+        <motion.div className="absolute inset-0 w-full overflow-visible">
           <motion.canvas
             ref={canvasRef}
             className="absolute top-0 left-0 w-screen h-full"
