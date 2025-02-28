@@ -135,14 +135,14 @@ const AboutIntro = () => {
             </div>
 
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
-              <h2 className="text-[2rem] md:text-[2.75rem] lg:text-[3.5rem] font-[400] text-white tracking-[-0.02em] leading-[1.15] text-center max-w-[75rem] mx-auto">
+              <h2 className="text-[2rem] md:text-[2.75rem] lg:text-[3.5rem] font-[200] text-white tracking-[-0.02em] leading-[1.15] text-center max-w-[75rem] mx-auto">
                 I pair strong <span className="font-serif italic font-medium">visual design</span> skills with a<br />
                 focus on <span className="font-serif italic font-medium">user-centered</span> design.
               </h2>
             </div>
 
             <div className="absolute top-[59%] left-1/2 -translate-x-1/2 w-full">
-              <p className="text-xs md:text-sm text-gray-400 font-[350] tracking-[-0.01em] text-center max-w-[50rem] mx-auto whitespace-nowrap">
+              <p className="text-xs md:text-sm text-gray-400 font-[200] tracking-[-0.01em] text-center max-w-[50rem] mx-auto whitespace-nowrap">
                 Your brand deserves a <span className="font-serif italic">story</span> and an <span className="font-serif italic">identity</span>. I make sure they're both compelling.
               </p>
             </div>

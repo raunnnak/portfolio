@@ -42,7 +42,7 @@ const ServiceItem = ({ title, description, index, accents }) => {
     return parts.map((part, i) => {
       if (part.startsWith('<accent>') && part.endsWith('</accent>')) {
         const content = part.replace(/<\/?accent>/g, '');
-        return <span key={i} className="text-neutral-800 font-serif italic">{content} </span>;
+        return <span key={i} className="text-neutral-800 font-serif italic tracking-[0.025em]">{content} </span>;
       }
       return <span key={i}>{part}</span>;
     });
@@ -80,7 +80,7 @@ const ServiceItem = ({ title, description, index, accents }) => {
         transition={{ duration: 0.4 }}
       >
         {/* Title */}
-        <h3 className={`text-2xl md:text-3xl font-light mb-4 flex flex-wrap gap-3 ${
+        <h3 className={`text-2xl md:text-3xl font-thin mb-4 flex flex-wrap gap-3 ${
           isEven ? 'justify-start' : 'justify-end'
         }`}>
           {title.map((word, i) => (
@@ -207,7 +207,7 @@ const ContactItem = () => {
         transition={{ duration: 0.4 }}
       >
         {/* Title */}
-        <h3 className="text-2xl md:text-3xl font-light mb-6">Get in touch</h3>
+        <h3 className="text-2xl md:text-3xl font-thin mb-6">Get in touch</h3>
         
         {/* Description */}
         <p className="text-sm text-neutral-600 font-light leading-relaxed mb-8">
@@ -270,9 +270,9 @@ const ServicesSection = () => {
                   Our Expertise
                 </span>
               </div>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-light tracking-[-0.02em] max-w-lg">
-                Transforming ideas into{" "}
-                <span className="font-serif italic">exceptional</span> digital experiences
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-thin tracking-[-0.02em] max-w-lg">
+                Transforming ideas into exceptional {" "} <br></br>
+                <span className="font-serif italic tracking-[0.025em]"> digital experiences</span>  
               </h2>
             </motion.div>
           </div>

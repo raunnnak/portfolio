@@ -72,7 +72,7 @@ const ProjectCard = ({ project, index, inverted = false }) => {
               </div>
               
               <motion.h3 
-                className="text-xl md:text-2xl font-light mb-2 text-neutral-800 group-hover:text-neutral-600 group-hover:translate-x-1 transition-all duration-500"
+                className="text-2xl font-thin text-neutral-900 tracking-[-0.02em] leading-[1.15] mb-4"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
