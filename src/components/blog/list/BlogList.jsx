@@ -5,16 +5,72 @@ import BlogLayout from '../layout/BlogLayout';
 import { blogPosts } from '../../../data/blogPosts';
 
 const POSTS_PER_PAGE = 6;
+const MAX_SEARCH_LENGTH = 100;
 
 const BlogList = ({ defaultCategory = '', defaultTag = '' }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  
+  // Only keep error state, remove loading state
+  const [error, setError] = useState(null);
 
-  // Initialize state from URL parameters or defaults
-  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
-  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || defaultCategory);
-  const [selectedTag, setSelectedTag] = useState(searchParams.get('tag') || defaultTag);
-  const [currentPage, setCurrentPage] = useState(parseInt(searchParams.get('page')) || 1);
+  // Validate and normalize URL parameters
+  const validateAndNormalizeParams = () => {
+    const params = new URLSearchParams(searchParams);
+    let hasChanges = false;
+
+    // Validate search query
+    const search = params.get('search') || '';
+    if (search.length > MAX_SEARCH_LENGTH) {
+      params.set('search', search.slice(0, MAX_SEARCH_LENGTH));
+      hasChanges = true;
+    }
+
+    // Validate page number
+    const page = params.get('page');
+    if (page !== null) {
+      const pageNum = parseInt(page);
+      if (isNaN(pageNum) || pageNum < 1) {
+        params.delete('page');
+        hasChanges = true;
+      }
+    }
+
+    // Validate category
+    const category = params.get('category') || defaultCategory;
+    if (category && !blogPosts.some(post => post.category.slug === category)) {
+      params.delete('category');
+      hasChanges = true;
+      setError('Invalid category specified');
+    }
+
+    // Validate tag
+    const tag = params.get('tag') || defaultTag;
+    if (tag && !blogPosts.some(post => post.tags.some(t => t.slug === tag))) {
+      params.delete('tag');
+      hasChanges = true;
+      setError('Invalid tag specified');
+    }
+
+    // Update URL if parameters were invalid
+    if (hasChanges) {
+      setSearchParams(params);
+    }
+
+    return {
+      search: params.get('search') || '',
+      category: params.get('category') || defaultCategory,
+      tag: params.get('tag') || defaultTag,
+      page: Math.max(1, parseInt(params.get('page') || '1'))
+    };
+  };
+
+  // Initialize state from validated URL parameters
+  const validatedParams = useMemo(() => validateAndNormalizeParams(), [searchParams, defaultCategory, defaultTag]);
+  const [searchQuery, setSearchQuery] = useState(validatedParams.search);
+  const [selectedCategory, setSelectedCategory] = useState(validatedParams.category);
+  const [selectedTag, setSelectedTag] = useState(validatedParams.tag);
+  const [currentPage, setCurrentPage] = useState(validatedParams.page);
 
   // Get unique categories and tags
   const categories = useMemo(() => {
@@ -57,11 +113,14 @@ const BlogList = ({ defaultCategory = '', defaultTag = '' }) => {
     ? blogPosts[0] 
     : null;
 
-  // Update URL parameters when filters or page changes
+  // Update URL parameters
   useEffect(() => {
+    document.body.style.cursor = 'wait'; // Minimal loading indication
     const params = new URLSearchParams();
     
-    if (searchQuery) params.set('search', searchQuery);
+    if (searchQuery) {
+      params.set('search', searchQuery.slice(0, MAX_SEARCH_LENGTH));
+    }
     if (selectedCategory) params.set('category', selectedCategory);
     if (selectedTag) params.set('tag', selectedTag);
     if (currentPage > 1) params.set('page', currentPage.toString());
@@ -73,6 +132,8 @@ const BlogList = ({ defaultCategory = '', defaultTag = '' }) => {
       // If no parameters, remove query string completely
       navigate('.', { replace: true });
     }
+    
+    document.body.style.cursor = 'default'; // Reset cursor
   }, [searchQuery, selectedCategory, selectedTag, currentPage, setSearchParams, navigate]);
 
   // Validate and adjust current page when filters change
@@ -102,8 +163,26 @@ const BlogList = ({ defaultCategory = '', defaultTag = '' }) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Add error message display
+  const ErrorMessage = () => error && (
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-red-900/50 text-red-200 px-4 py-2 rounded-lg mb-4"
+    >
+      {error}
+      <button
+        onClick={() => setError(null)}
+        className="ml-2 text-red-200 hover:text-red-100"
+      >
+        ×
+      </button>
+    </motion.div>
+  );
+
   return (
     <BlogLayout>
+      <ErrorMessage />
       {/* Featured Post Section */}
       {featuredPost && (
         <section className="mb-16">

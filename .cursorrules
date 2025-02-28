@@ -140,6 +140,9 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
 - Always update scratchpad before making any changes
 - Proceed with implementation step by step, marking each microstep as complete
 - Get approval before proceeding to next major phase
+- NEVER skip testing or UX phases due to laziness - this will break the application and create more work later
+- Document ALL implementation phases and get explicit approval before any changes
+- Testing and UX are not optional "nice to haves" - they are REQUIRED for a working application
 
 ## Cursor learned
 
@@ -158,6 +161,13 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
 - Verify all imports work after moving files
 - Clean up empty directories and unused template files
 - Keep documentation up to date with actual codebase structure
+- Never remove testing and UX enhancement sections from implementation plans
+- Testing and UX are critical phases that directly impact product quality
+- Always maintain all implementation phases in the scratchpad
+- Get explicit approval before modifying any existing sections
+- Never skip implementation steps out of laziness - proper testing and UX are fundamental requirements
+- Cutting corners creates more work and bugs later
+- Follow the complete implementation process in order: core functionality -> testing -> UX -> design
 
 # Scratchpad
 
@@ -170,7 +180,7 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
 - Using mock data in src/data/blogPosts.js
 - Implementing all UI components and interactions
 - Setting up routing and navigation
-- Creating loading state placeholders
+- Basic loading indication (cursor change)
 
 #### Design Phase (To Be Started)
 
@@ -183,21 +193,18 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
   - Custom code block styling
   - Animated transitions
   - Pixel art accents
+  - Loading states and animations:
+    - Post loading overlay
+    - Filter loading states
+    - Pagination loading transitions
+    - Search loading indicator
+    - Category/tag loading effects
 - Create design system for:
   - Typography hierarchy
   - Color palette
   - Animation patterns
   - Interactive elements
-  - Loading states
-
-#### Future Phase: Supabase Integration
-
-- Create necessary database tables and relations
-- Set up authentication if needed
-- Replace mock data with API calls
-- Implement proper error handling
-- Add loading states
-- Update components to handle real data
+  - Loading state variations
 
 ### Current Implementation Status
 
@@ -206,6 +213,7 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
 [X] Blog types defined
 [X] Directory structure created
 [X] Basic component files created
+[X] ScrollToTop implementation
 
 #### Phase 2: Blog List Page ✅
 
@@ -220,6 +228,7 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
 [X] Hover effects
 [X] Animations
 [X] Navigation implementation
+[X] Scroll position fix
 
 [X] 2.3. Search and Filter
 [X] Search input UI
@@ -238,24 +247,6 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
 [ ] Styling (this is a design phase element)
 [ ] Animations (this is a design phase element)
 
-#### Phase 3: Blog Post Page (In Progress)
-
-[X] 3.1. Navigation Implementation
-[X] Card to post navigation
-[X] URL parameter handling
-[X] Back navigation
-
-[X] 3.2. Post Content
-[X] Basic data fetching
-[X] Proper markdown rendering
-[X] Code block highlighting
-[ ] Typography finalization (this is a design phase element)
-
-[X] 3.3. Interactive Elements
-[X] Share functionality
-[X] Tag linking
-[X] Related posts
-
 ### Next Immediate Steps
 
 1. URL Integration (Core Functionality):
@@ -264,8 +255,9 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
    [X] Make filters shareable via URL
    [X] Handle direct URL access with filters
    [X] Add category and tag page routes
-   [/] Test URL functionality
-   [ ] Add error handling for invalid URL parameters
+   [X] Test URL functionality
+   [X] Add error handling for invalid URL parameters
+   [X] Fix scroll position issues
 
 2. Design Phase Implementation:
    [ ] Implement avant-garde theme with arcade accents
@@ -276,7 +268,7 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
    [ ] Style code blocks
    [ ] Add animated transitions
    [ ] Create pixel art accents
-   [ ] Design loading states
+   [ ] Design and implement loading states
    [ ] Mobile-first responsive design updates
 
 3. Testing & Quality Assurance:
@@ -301,7 +293,7 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
 
 ### Current Focus
 
-Testing URL parameter functionality and adding error handling for invalid parameters before proceeding to the design phase.
+Completed URL parameter integration and scroll position fixes. Next steps include thorough testing and UX enhancements before moving to the design phase.
 
 ### Questions for Next Phase
 
