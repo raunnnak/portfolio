@@ -53,8 +53,8 @@ const AboutIntro = () => {
       };
 
       const positions = [];
-      const numParticles = 1200;  // Increased total number of particles
-      const numColumns = 35;  // Slightly increased columns for better distribution
+      const numParticles = 1200;
+      const numColumns = 35;
       
       const generatePosition = (index) => {
         const column = index % numColumns;
@@ -62,37 +62,41 @@ const AboutIntro = () => {
         const baseXSpread = column / (numColumns - 1);
         const xSpread = baseXSpread * 0.98 + 0.01 + (Math.random() * 0.02 - 0.01);
         
-        const yBase = 0.8 + (row / (numParticles / numColumns)) * 35;
+        // Adjusted vertical distribution to fill more of the screen
+        const yBase = 0.2 + (row / (numParticles / numColumns)) * 45;  // Start higher (0.2) and spread more (45)
         
-        // Adjusted size distribution to favor smaller particles
         let size;
         const sizeRandom = Math.random();
-        if (sizeRandom < 0.45) {  // Increased probability for extra small (was 0.3)
-          // Extra small squares (2-6px)
+        if (sizeRandom < 0.45) {
           size = Math.random() * 4 + 2;
-        } else if (sizeRandom < 0.75) {  // Increased probability for small (was 0.6)
-          // Small squares (6-12px)
+        } else if (sizeRandom < 0.75) {
           size = Math.random() * 6 + 6;
-        } else if (sizeRandom < 0.9) {  // Reduced medium (was 0.85)
-          // Medium squares (12-20px)
+        } else if (sizeRandom < 0.9) {
           size = Math.random() * 8 + 12;
-        } else {  // Reduced large
-          // Large squares (20-28px)
+        } else {
           size = Math.random() * 6 + 20;
         }
+
+        // Keep the enhanced floating parameters
+        const floatParams = {
+          primaryAmplitude: Math.random() * 50 + 30,
+          secondaryAmplitude: Math.random() * 30 + 20,
+          primarySpeed: Math.random() * 0.03 + 0.02,
+          secondarySpeed: Math.random() * 0.02 + 0.015,
+          phaseOffset: Math.random() * Math.PI * 2,
+          directionChange: Math.random() * Math.PI * 2
+        };
         
         return {
           x: xSpread,
-          y: yBase + Math.random() * 1.2,
+          y: yBase + Math.random() * 2,  // Increased random vertical variation
           size: Math.round(size),
-          opacity: 0.5 + Math.random() * 0.4,  // Slightly adjusted opacity range
+          opacity: 0.5 + Math.random() * 0.4,
           delay: (index * (6.5 / numParticles)) * 0.7,
           rotation: Math.random() * 360,
-          rotationSpeed: (Math.random() - 0.5) * 0.3,
-          floatAmplitude: Math.random() * 20 + 5,
-          floatSpeed: Math.random() * 0.002 + 0.0006,
-          floatOffset: Math.random() * Math.PI * 2,
-          scaleRange: 0.1 + Math.random() * 0.15
+          rotationSpeed: (Math.random() - 0.5) * 0.8,
+          floatParams,
+          scaleRange: 0.2 + Math.random() * 0.3
         };
       };
 
@@ -108,17 +112,15 @@ const AboutIntro = () => {
         particles.push({
           x,
           y,
-          targetY: y - canvas.height * 6, // Increased range for more particles
+          targetY: y - canvas.height * 8,  // Increased vertical range
           size: pos.size,
           opacity: pos.opacity,
           delay: pos.delay,
           originalX: x,
-          originalY: y - canvas.height * 6, // Match the increased range
+          originalY: y - canvas.height * 8,  // Match the increased range
           rotation: pos.rotation,
           rotationSpeed: pos.rotationSpeed,
-          floatAmplitude: pos.floatAmplitude,
-          floatSpeed: pos.floatSpeed,
-          floatOffset: pos.floatOffset,
+          floatParams: pos.floatParams,
           scaleRange: pos.scaleRange,
           speedX: (Math.random() - 0.5) * 0.2,
           speedY: (Math.random() - 0.5) * 0.2,
@@ -153,20 +155,14 @@ const AboutIntro = () => {
         document.body.scrollHeight
       ) - window.innerHeight;
       
-      // Get current opacity of the section for sync
       const currentOpacity = opacity.get();
-      
-      // Keep emergence going until text is completely gone
       const scrollProgress = Math.min(1, scrollTop / scrollHeight);
       
       particles.forEach(particle => {
-        particle.time += 0.016;
+        particle.time += 0.05;  // Even faster time increment
         
-        // Calculate base emergence progress
         let particleProgress;
-        
         if (currentOpacity === 1) {
-          // Faster scroll through particles
           particleProgress = Math.max(0, Math.min(1, scrollProgress * 2.2 - particle.delay * 0.3));
         } else if (currentOpacity === 0) {
           particleProgress = 0;
@@ -177,40 +173,42 @@ const AboutIntro = () => {
         
         particle.progress = particleProgress;
         
-        // Calculate emergence position with floating motion
         const startY = canvas.height + particle.size;
         const targetY = particle.targetY;
         const baseY = startY - (startY - targetY) * easeOutCubic(particleProgress);
         
-        // Add floating motion
-        const floatY = Math.sin(particle.time * particle.floatSpeed + particle.floatOffset) * particle.floatAmplitude;
-        const floatX = Math.cos(particle.time * particle.floatSpeed * 1.5 + particle.floatOffset) * particle.floatAmplitude;
+        const fp = particle.floatParams;
+        const time = particle.time;
         
-        // Update rotation
-        particle.rotation += particle.rotationSpeed;
+        // Super simple, very obvious floating motion
+        const floatX = Math.sin(time * fp.primarySpeed) * fp.primaryAmplitude;
+        const floatY = Math.cos(time * fp.secondarySpeed) * fp.secondaryAmplitude;
         
-        // Calculate scale based on time
-        const scale = 1 + Math.sin(particle.time * 0.001) * particle.scaleRange;
+        // More dynamic rotation
+        particle.rotation += particle.rotationSpeed * (1 + Math.sin(time * 0.002) * 0.3);
+        
+        // More pronounced scale variation
+        const movementScale = Math.sqrt(floatX * floatX + floatY * floatY) / fp.primaryAmplitude;
+        const scale = 1 + Math.sin(time * 0.003) * particle.scaleRange * (1 + movementScale * 0.3);
 
-        // Enhanced cursor interaction
+        // Enhanced cursor interaction with more force
         if (mouseX && mouseY) {
           const dx = mouseX - (particle.x + floatX);
           const dy = mouseY - (baseY + floatY);
           const distance = Math.sqrt(dx * dx + dy * dy);
-          const maxDistance = 400;
+          const maxDistance = 600;
           
           if (distance < maxDistance) {
-            const force = (1 - distance / maxDistance) * 0.03;
+            const force = (1 - distance / maxDistance) * 0.08;
             particle.x += dx * force;
             baseY += dy * force;
           }
         }
 
-        // Return to original position with inertia
-        const returnSpeed = 0.015;
+        // Very quick return for responsive movement
+        const returnSpeed = 0.05;  // Fixed, fast return speed
         particle.x += (particle.originalX - particle.x) * returnSpeed;
 
-        // Only draw if in progress
         if (particleProgress > 0) {
           const fadeInProgress = Math.min(1, particleProgress * 2);
           drawSquare(
