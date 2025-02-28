@@ -12,14 +12,14 @@ const FeaturedProjects = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1.0] }}
               className="flex flex-col items-start text-left"
             >
               <motion.div
                 initial={{ width: 0 }}
                 whileInView={{ width: "100px" }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="h-[1px] bg-neutral-300 mb-6 self-start"
               />
@@ -29,7 +29,7 @@ const FeaturedProjects = () => {
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="text-neutral-800 text-lg md:text-xl font-light"
                 style={{ maxWidth: "90%" }}

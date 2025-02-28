@@ -52,10 +52,10 @@ const ServiceItem = ({ title, description, index, accents }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, amount: 0.1 }}
       transition={{ 
-        duration: 0.8,
-        delay: index * 0.2,
+        duration: 1.2,
+        delay: index * 0.3,
         ease: [0.25, 0.1, 0.25, 1.0]
       }}
       className={`relative group w-full md:w-[85%] ${
@@ -90,8 +90,8 @@ const ServiceItem = ({ title, description, index, accents }) => {
                 className="absolute bottom-0 left-0 w-full h-[1px] bg-neutral-400 origin-left"
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.4 + index * 0.2 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 1.2, delay: 0.4 + index * 0.3 }}
               />
             </span>
           ))}
@@ -111,8 +111,8 @@ const ServiceItem = ({ title, description, index, accents }) => {
           }`}
           initial={{ scaleY: 0 }}
           whileInView={{ scaleY: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.6 + index * 0.2 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 1, delay: 0.6 + index * 0.3 }}
         />
       </motion.div>
     </motion.div>
@@ -183,8 +183,8 @@ const ContactItem = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 1 }}
       className={`relative group w-full md:w-[85%] ${
         isEven ? 'ml-0' : 'ml-auto'
       }`}
@@ -226,8 +226,8 @@ const ContactItem = () => {
           }`}
           initial={{ scaleY: 0 }}
           whileInView={{ scaleY: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.8 }}
         />
       </motion.div>
     </motion.div>
@@ -243,7 +243,7 @@ const ServicesSection = () => {
         <div className="flex flex-col md:flex-row items-start gap-x-32">
           {/* Left side - Services list */}
           <div className="w-full md:w-2/3 order-2 md:order-1">
-            <div className="space-y-32 pl-8">
+            <div className="space-y-40 pl-8">
               {services.map((service, index) => (
                 <ServiceItem
                   key={service.title.join('')}
@@ -260,8 +260,8 @@ const ServicesSection = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.8 }}
               className="flex flex-col items-start"
             >
               <div className="flex items-center gap-4 mb-4">

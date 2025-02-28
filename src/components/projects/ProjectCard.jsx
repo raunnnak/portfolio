@@ -16,93 +16,106 @@ const ProjectCard = ({ project, index, inverted = false }) => {
         delay: 0.1 + (index * 0.1),
         ease: [0.25, 0.1, 0.25, 1.0]
       }}
-      className="mb-32 md:mb-48"
+      className="mb-24 md:mb-32"
     >
-      <div className={`w-full md:w-[80%] ${isEven ? 'md:ml-auto' : ''}`}>
+      <div className={`w-full md:w-[85%] ${isEven ? 'md:ml-auto' : ''}`}>
         <Link to={link} className="block group">
           <motion.div 
-            className="relative overflow-hidden rounded-[2rem] bg-white/90"
-            whileHover={{ scale: 1.02, rotate: -1 }}
+            className="relative overflow-hidden bg-gradient-to-br from-white via-white to-neutral-50"
+            whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1.0] }}
           >
-            {/* Subtle serif number */}
-            <span className="absolute top-8 right-12 font-serif italic text-2xl text-neutral-300 z-10">
-              {number}
-            </span>
-
-            {/* Project image */}
-            <div className="relative w-full aspect-video overflow-hidden">
-              <motion.div
-                className="w-full h-full"
-                whileHover={{ 
-                  scale: 1.03,
-                  transition: { duration: 0.6, ease: [0.2, 0.8, 0.2, 1.0] }
-                }}
-              >
-                <motion.img
-                  src={image}
-                  alt={title}
-                  className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:saturate-[1.1] transition-all duration-700"
-                  initial={{ scale: 1.1 }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: 1.2 }}
-                />
-              </motion.div>
-            </div>
+            {/* Background Pattern */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_100%,rgba(0,0,0,0.02)_0%,rgba(0,0,0,0)_50%)] z-0" />
             
-            {/* Project details */}
-            <div className="p-12">
-              <div className="flex flex-wrap gap-4 md:gap-6 mb-4">
-                {categories.map((category, index) => (
-                  <motion.span 
-                    key={index}
-                    className="text-xs tracking-widest uppercase font-light text-neutral-500"
+            {/* Content Wrapper */}
+            <div className="relative z-10">
+              {/* Project image with overlay */}
+              <div className="relative w-full aspect-[16/9] overflow-hidden">
+                <motion.div
+                  className="w-full h-full"
+                  whileHover={{ 
+                    scale: 1.08,
+                    transition: { duration: 0.8, ease: [0.2, 0.8, 0.2, 1.0] }
+                  }}
+                >
+                  <motion.img
+                    src={image}
+                    alt={title}
+                    className="w-full h-full object-cover opacity-95 group-hover:opacity-100 transition-all duration-500"
+                    initial={{ scale: 1.1 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 1.2 }}
+                  />
+                  {/* Image Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                </motion.div>
+                
+                {/* Category Tags - Moved to overlay */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-wrap gap-3 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                  {categories.map((category, index) => (
+                    <motion.span 
+                      key={index}
+                      className="text-[11px] tracking-widest uppercase font-light bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-neutral-800"
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ 
+                        duration: 0.5, 
+                        delay: 0.2 + (index * 0.1),
+                        ease: [0.25, 0.1, 0.25, 1.0]
+                      }}
+                    >
+                      {category}
+                    </motion.span>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Project details */}
+              <div className="p-8 relative">
+                {/* Number with line decoration */}
+                <div className="absolute -top-12 right-8 z-20 flex items-center gap-3">
+                  <div className="h-[1px] w-12 bg-neutral-300 origin-right scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                  <span className="font-serif italic text-xl text-neutral-400">
+                    {number}
+                  </span>
+                </div>
+
+                <div className="relative">
+                  <motion.h3 
+                    className="text-xl md:text-2xl font-thin text-neutral-900 tracking-[-0.02em] leading-snug mb-3 group-hover:translate-x-2 transition-all duration-500"
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ 
                       duration: 0.5, 
-                      delay: 0.2 + (index * 0.1),
+                      delay: 0.3,
                       ease: [0.25, 0.1, 0.25, 1.0]
                     }}
                   >
-                    {category}
-                  </motion.span>
-                ))}
-              </div>
-              
-              <motion.h3 
-                className="text-2xl font-thin text-neutral-900 tracking-[-0.02em] leading-[1.15] mb-4"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ 
-                  duration: 0.5, 
-                  delay: 0.3,
-                  ease: [0.25, 0.1, 0.25, 1.0]
-                }}
-              >
-                {title}
-              </motion.h3>
-              
-              <motion.p 
-                className="text-sm md:text-base font-light leading-relaxed text-neutral-600"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ 
-                  duration: 0.5, 
-                  delay: 0.4,
-                  ease: [0.25, 0.1, 0.25, 1.0]
-                }}
-              >
-                {description}
-              </motion.p>
-            </div>
+                    {title}
+                  </motion.h3>
+                  
+                  <motion.p 
+                    className="text-sm font-light leading-relaxed text-neutral-600 line-clamp-2 max-w-[90%]"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ 
+                      duration: 0.5, 
+                      delay: 0.4,
+                      ease: [0.25, 0.1, 0.25, 1.0]
+                    }}
+                  >
+                    {description}
+                  </motion.p>
 
-            {/* Decorative elements */}
-            <div className="absolute top-0 right-0 w-32 h-32 opacity-50 bg-gradient-to-br from-neutral-100/50 to-transparent rounded-full blur-3xl transition-opacity duration-500 group-hover:opacity-80" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 opacity-30 bg-gradient-to-tr from-neutral-100/30 to-transparent rounded-full blur-3xl transition-opacity duration-500 group-hover:opacity-60" />
+                  {/* Hover indicator */}
+                  <div className="absolute left-0 bottom-0 h-[1px] w-full bg-neutral-200 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                </div>
+              </div>
+            </div>
           </motion.div>
         </Link>
       </div>
