@@ -294,8 +294,8 @@ const AboutIntro = () => {
 
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
               <h2 className="text-[2.5rem] md:text-[3.5rem] lg:text-[4.5rem] font-[200] text-white/100 tracking-[-0.02em] leading-[1.15] text-center max-w-[100rem] mx-auto">
-                I pair curated <span className="font-['Cormorant'] italic font-[700] text-white text-[3rem] md:text-[4rem] lg:text-[5rem] tracking-[0.02em]">visual storytelling</span> with<br />
-                a focus on <span className="font-['Cormorant'] italic font-[700] text-white text-[3rem] md:text-[4rem] lg:text-[5rem] tracking-[0.02em]">user-centered</span> design.
+                I pair curated <span className="font-['Cormorant'] italic font-[700] text-white text-[3rem] md:text-[4.2rem] lg:text-[5.4rem] tracking-[0.02em]">visual storytelling</span> with<br />
+                a focus on <span className="font-['Cormorant'] italic font-[700] text-white text-[3rem] md:text-[4.2rem] lg:text-[5.4rem] tracking-[0.02em]">user-centered</span> design.
               </h2>
             </div>
 
@@ -306,21 +306,83 @@ const AboutIntro = () => {
             </div>
             
             <div className="absolute bottom-8 right-8 flex items-center gap-4">
-              <motion.span 
-                className="text-[11px] tracking-[0.25em] text-gray-400 uppercase font-['Pixelify_Sans'] font-[300] inline-block"
+              <motion.div 
+                className="flex items-center gap-4"
                 animate={{
-                  y: [-10, 10],
+                  x: [-220, -160, -190, -80, -140, -20, -120, -40, -180, -90, -200, -140, -60],
+                  y: [-140, -100, -125, -75, -115, -85, -130, -80, -120, -70, -110, -135, -95],
+                }}
+                style={{
+                  opacity: useTransform(
+                    scrollYProgress,
+                    [0, 0.9, 1],
+                    [1, 1, 0]
+                  ),
+                  translateY: useTransform(
+                    scrollYProgress,
+                    [0, 0.9, 1],
+                    [0, 0, 100]
+                  )
                 }}
                 transition={{
-                  duration: 1,
+                  duration: 40,
+                  times: [0, 0.08, 0.16, 0.24, 0.32, 0.40, 0.48, 0.56, 0.64, 0.72, 0.80, 0.88, 1],
                   repeat: Infinity,
-                  repeatType: "reverse",
-                  ease: "easeInOut"
+                  repeatType: "mirror",
+                  type: "spring",
+                  bounce: 0.2,
+                  damping: 25,
+                  stiffness: 35
                 }}
               >
-                SCROLL
-              </motion.span>
-              <div className="h-[1px] w-12 bg-gradient-to-r from-gray-400 to-transparent" />
+                <motion.div
+                  animate={{
+                    rotate: [-1.5, 1, -1.2, 1.5, -0.8, 1.2, -0.5, 0.8, -1],
+                  }}
+                  transition={{
+                    duration: 20,
+                    repeat: Infinity,
+                    repeatType: "mirror",
+                    type: "spring",
+                    bounce: 0.15,
+                    damping: 20,
+                    stiffness: 25
+                  }}
+                  className="flex items-center gap-4"
+                >
+                  <motion.span 
+                    className="text-[11px] tracking-[0.25em] text-white uppercase font-['Pixelify_Sans'] font-[300] inline-block mix-blend-difference"
+                    animate={{
+                      opacity: [0.85, 0.92, 0.88, 1, 0.9, 0.95, 0.85],
+                      y: [-0.5, 0, 0.5, 0, -0.5]
+                    }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      repeatType: "mirror",
+                      ease: "easeInOut"
+                    }}
+                  >
+                    SCROLL
+                  </motion.span>
+                  <motion.div 
+                    className="h-[1px] w-12 bg-gradient-to-r from-white to-transparent"
+                    animate={{
+                      scaleX: [1, 1.05, 1.02, 1.08, 1],
+                      opacity: [0.85, 0.92, 0.88, 1, 0.85],
+                    }}
+                    style={{
+                      filter: "drop-shadow(0 0 2px rgba(255,255,255,0.5))"
+                    }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      repeatType: "mirror",
+                      ease: "easeInOut"
+                    }}
+                  />
+                </motion.div>
+              </motion.div>
             </div>
           </div>
         </div>
