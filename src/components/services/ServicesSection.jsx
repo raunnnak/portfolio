@@ -298,6 +298,7 @@ const ServicesSection = () => {
   return (
     <section 
       ref={containerRef} 
+      id="services"
       className="py-32 relative"
       style={{ 
         scrollBehavior: isPaused ? 'smooth' : 'auto',

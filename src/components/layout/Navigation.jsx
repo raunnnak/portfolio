@@ -8,6 +8,38 @@ const Navigation = () => {
   const [isDarkBg, setIsDarkBg] = useState(true);
   const location = useLocation();
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  const scrollToSection = (sectionId) => {
+    // If we're not on the homepage, first navigate there
+    if (location.pathname !== '/') {
+      window.location.href = `/#${sectionId}`;
+      return;
+    }
+    
+    // Find the section by looking for both direct id and section with data attribute
+    const section = document.querySelector(`#${sectionId}`) || 
+                   document.querySelector(`section[data-section="${sectionId}"]`) ||
+                   document.querySelector(`section:has(.${sectionId})`);
+                   
+    if (section) {
+      const navHeight = 48; // height of the navigation bar
+      const elementPosition = section.getBoundingClientRect().top;
+      // We want the top of the section to align with the navigation bar
+      const offsetPosition = elementPosition + window.pageYOffset + navHeight;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
+  };
+
   // Handle background detection for contrast
   useEffect(() => {
     const handleScroll = () => {
@@ -49,8 +81,8 @@ const Navigation = () => {
   }, []);
 
   const menuItems = [
-    { number: '01', text: 'Home', path: '/' },
-    { number: '02', text: 'Projects', path: '/projects' },
+    { number: '01', text: 'Projects', path: '/#featured-projects', isSection: true, sectionId: 'featured-projects' },
+    { number: '02', text: 'Services', path: '/#services', isSection: true, sectionId: 'services' },
     { number: '03', text: 'Blog', path: '/blog' },
   ];
 
@@ -65,7 +97,11 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-12">
           {/* Logo */}
           <Link 
-            to="/" 
+            to="/"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToTop();
+            }}
             className={`relative flex items-center h-12 focus:outline-none group`}
           >
             <motion.div
@@ -74,9 +110,11 @@ const Navigation = () => {
               transition={{ duration: 0.5 }}
               className="relative h-32 md:h-40 z-10 -my-10 md:-my-14"
             >
-              <img
+              <motion.img
                 src="/logo.svg"
                 alt="Logo"
+                whileHover={{ scale: 1.03 }}
+                transition={{ duration: 0.2 }}
                 className={`h-full w-auto object-contain transition-all duration-300 ${
                   isDarkBg 
                     ? 'brightness-0 invert opacity-100 group-hover:opacity-80' 
@@ -91,21 +129,28 @@ const Navigation = () => {
             {menuItems.map((item, index) => (
               <Link
                 key={item.number}
-                to={item.path}
+                to={item.isSection ? '/' : item.path}
+                onClick={(e) => {
+                  if (item.isSection) {
+                    e.preventDefault();
+                    scrollToSection(item.sectionId);
+                  }
+                  setIsOpen(false);
+                }}
                 className={`group flex items-center h-12 px-16 border-l ${borderColor} last:border-r focus:outline-none relative`}
               >
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: parseInt(item.number) * 0.1 }}
-                  className="flex items-center space-x-3 relative overflow-hidden"
+                  className="flex items-baseline space-x-3 relative overflow-hidden"
                 >
-                  <span className={`font-serif italic text-base ${numberColor}`}>{item.number}</span>
+                  <span className={`font-serif italic text-lg ${numberColor} transition-colors duration-300 group-hover:text-red-500 translate-y-[-0.5px]`}>{item.number}</span>
                   <span className={`relative font-light text-sm ${textColor} flex flex-col`}>
-                    <span className="block transition-transform duration-700 ease-in-out group-hover:-translate-y-full">
+                    <span className="block transition-transform duration-700 ease-in-out group-hover:-translate-y-[150%]">
                       {item.text}
                     </span>
-                    <span className="absolute top-0 left-0 translate-y-full transition-transform duration-700 ease-in-out group-hover:translate-y-0">
+                    <span className="absolute top-0 left-0 translate-y-[150%] transition-transform duration-700 ease-in-out group-hover:translate-y-0">
                       {item.text}
                     </span>
                     {/* Active indicator */}
@@ -165,9 +210,15 @@ const Navigation = () => {
                 {menuItems.map((item) => (
                   <Link
                     key={item.number}
-                    to={item.path}
+                    to={item.isSection ? '/' : item.path}
+                    onClick={(e) => {
+                      if (item.isSection) {
+                        e.preventDefault();
+                        scrollToSection(item.sectionId);
+                      }
+                      setIsOpen(false);
+                    }}
                     className="flex items-center space-x-3 py-3 pl-0 relative"
-                    onClick={() => setIsOpen(false)}
                   >
                     <span className="font-serif italic text-base text-neutral-400">{item.number}</span>
                     <span className="font-light text-sm text-white relative">
