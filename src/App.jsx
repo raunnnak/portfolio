@@ -1,12 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import Home from './components/pages/Home';
-
-const Blog = () => (
-  <div className="min-h-screen bg-black text-white flex items-center justify-center">
-    <h1 className="text-4xl font-[200]">Blog Coming Soon</h1>
-  </div>
-);
+import BlogList from './components/blog/list/BlogList';
+import BlogPost from './components/blog/post/BlogPost';
 
 function App() {
   return (
@@ -14,7 +10,8 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog" element={<BlogList />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
         </Routes>
       </Layout>
     </Router>
