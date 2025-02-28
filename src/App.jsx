@@ -1,10 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
-import Home from './pages/Home';
+import Home from './components/pages/Home';
 
-// Temporary page components (will be replaced with actual components later)
-const Projects = () => <h1 className="text-4xl font-bold">Projects</h1>;
-const Blog = () => <h1 className="text-4xl font-bold">Blog</h1>;
+const Blog = () => (
+  <div className="min-h-screen bg-black text-white flex items-center justify-center">
+    <h1 className="text-4xl font-[200]">Blog Coming Soon</h1>
+  </div>
+);
 
 function App() {
   return (
@@ -12,7 +14,6 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/projects" element={<Projects />} />
           <Route path="/blog" element={<Blog />} />
         </Routes>
       </Layout>

@@ -147,235 +147,86 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
 - Always verify the actual state of the codebase before updating progress trackers
 - Never assume component completion without checking the actual files
 - Never mark tasks as complete without verifying each individual file exists and contains the required functionality
+- Projects section is implemented as a component rather than a separate page
+- Contact form exists as part of services section (ContactServiceCard)
+- Blog section needs full implementation but route exists
+- Spline is used for 3D background animations
+- Keep component organization flat when possible (avoid deep nesting)
+- Verify all imports work after moving files
+- Clean up empty directories and unused template files
+- Keep documentation up to date with actual codebase structure
 
 # Scratchpad
 
-## Progress Tracking Reminder System
+## Current Task: Codebase Optimization (2024-03-01)
 
-!!! IMPORTANT: After each completed step:
+### Objective
 
-1. Update [X] in Progress Tracking section
-2. Add completion notes with timestamp
-3. Update context.md to reflect changes
-4. Verify the implementation meets all requirements
+Clean up and optimize the codebase before implementing new features.
 
-## Current Task: Portfolio Website Frontend Development (Phase 2)
+### Optimization Steps
 
-### Latest Updates
+#### 1. File Cleanup
 
-[2024-02-29] Added Contact Form section:
+[X] Remove unused template files:
 
-- Created ContactForm component with validation and animations
-- Implemented ContactSection container with heading and description
-- Added form feedback states (success/error messages)
-- Integrated with Home page
-- Made the form fully responsive and accessible
+- src/counter.ts
+- src/main.ts
+- src/typescript.svg
+- src/style.css
 
-[2024-02-28] Added FeaturedProjects section:
+[X] Remove empty directories:
 
-- Created FeaturedProjects component with scroll animations
-- Implemented ProjectCard with alternating left-right layout
-- Added sample project data with descriptions
-- Generated optimized webp placeholder images
-- Made the layout fully responsive
+- src/animations/
+- src/pages/
+- Any other empty dirs found during cleanup
 
-[2024-02-27] Updated Hero.jsx:
+#### 2. Component Structure Optimization
 
-- Removed background animation for later refinement
-- Maintained all text and scroll animations
-- Kept responsive design and typography
-- Preserved parallax scrolling effects
+[X] Move Home.jsx to appropriate location:
+
+- Current: src/pages/Home.jsx
+- Target: src/components/pages/Home.jsx
+
+[X] Update App.jsx:
+
+- Remove Projects route (now a section)
+- Update Blog placeholder component
+- Clean up comments
+- Ensure proper imports after moves
+
+#### 3. Directory Structure Cleanup
+
+[X] Audit and clean src/pages directory
+[X] Verify all component imports still work
+[X] Remove any unused exports/imports
+[X] Clean up any empty directories found
+
+#### 4. Documentation Updates
+
+[X] Update context.md with:
+
+- Current project structure
+- Component status
+- Implementation progress
+- Next steps
+
+[X] Update .cursorrules with:
+
+- Latest lessons learned
+- Current project status
+- Updated task tracking
+- Removed any outdated information
+
+### Next Steps After Optimization
+
+1. Implement scroll animations across all sections
+2. Add backend integration for contact form
+3. Begin blog section implementation
+4. Create individual project showcase templates
 
 ### Progress Tracking
 
-#### 2.1 Layout Components Setup (Completed)
-
-[X] 2.1.1 Create basic Layout.jsx wrapper
-[X] 2.1.2 Implement Navigation.jsx with basic structure
-[X] 2.1.3 Add mobile menu toggle functionality
-[X] 2.1.4 Create Footer.jsx with basic structure
-[X] 2.1.5 Add responsive styles to Navigation
-[X] 2.1.6 Add responsive styles to Footer
-
-#### 2.2 Homepage Components (In Progress)
-
-[X] 2.2.1 Create Hero.jsx structure with animations
-✓ Initial load animation
-✓ Text reveal sequence
-✓ Scroll-triggered parallax
-✓ Hover interactions
-✓ Clean black background (temporary)
-[ ] Background animation (postponed for later refinement)
-
-[X] 2.2.2 Add hero content and styling
-✓ Staggered text reveal
-✓ Smooth scroll transitions
-[ ] Background effects (pending)
-
-[X] 2.2.3 Create FeaturedProjects.jsx
-✓ Section heading with animations
-✓ Scroll indicator
-✓ Container for project cards
-✓ Alternating left-right layout
-
-[X] 2.2.4 Add project cards
-✓ Project images with hover effects
-✓ Categories with staggered animations
-✓ Titles and descriptions
-✓ Responsive layout adjustments
-
-[X] 2.2.5 Create ContactForm.jsx
-✓ Form fields with labels
-✓ Client-side validation
-✓ Error handling and messages
-✓ Success/error states
-
-[X] 2.2.6 Add form validation and styling
-✓ Input focus animations
-✓ Form submission handling
-✓ Loading state
-✓ Responsive design
-
-[ ] 2.2.7 Create ServicesSection.jsx (Next Focus)
-[ ] 2.2.8 Add service items and styling
-
-### Upcoming Tasks
-
-1. Next, we will work on:
-
-   - Services section on the homepage
-   - Services page (separate page) which will include an About Us component
-
-2. Ensure all components are accessible from the frontend navigation
-
-### Next Steps
-
-1. Create ServicesSection.jsx component with:
-
-   - Section heading with animations
-   - Service cards/items
-   - Descriptions and icons
-   - Responsive layout
-
-2. Implement remaining homepage sections:
-
-   - About section with skills and experience
-
-3. Refine existing components:
-   - Add background animation to Hero
-   - Optimize for performance
-   - Add additional microinteractions
-
-### ContactForm Implementation Plan (Completed)
-
-#### Phase 1: Create Basic Structure ✓
-
-- Created contact directory structure ✓
-- Implemented form elements with labels ✓
-- Added basic styling matching site theme ✓
-
-#### Phase 2: Add Form Validation ✓
-
-- Implemented client-side validation ✓
-- Added error messages and handling ✓
-- Created visual feedback for form states ✓
-
-#### Phase 3: Add Animations ✓
-
-- Implemented form animations ✓
-- Added button hover effects ✓
-- Created loading state animation ✓
-- Added success/error message animations ✓
-
-#### Phase 4: Connect to Backend (Future Task)
-
-- Form is ready for backend integration
-- Currently using simulated submission
-
-### Animation Implementation Plan (Inspired by jackelder.design)
-
-#### A. Global Animations Setup
-
-[ ] A.1 Create animation utility files - fadeIn.js: Basic fade animations - slideIn.js: Slide animations for text and sections - scaleHover.js: Hover effect animations - pageTransition.js: Page transition effects
-
-[ ] A.2 Loading Animation - Initial page load sequence - Percentage counter animation - Content reveal transitions
-
-#### B. Scroll Animation System
-
-[ ] B.1 Create ScrollProvider component - Implement Framer Motion useScroll - Handle scroll-triggered animations - Manage animation variants
-
-[ ] B.2 Scroll Animation Variants - Text fade-up animations - Staggered element reveals - Parallax scrolling effects - Section transition animations
-
-### Animation Implementation Details
-
-#### Hero Section Animations
-
-- Initial reveal: Fade in with slight up movement
-- Text sequence: Staggered reveal with 0.2s delay between elements
-- Scroll behavior: Parallax effect with 0.1 movement factor
-- Hover effects: Scale 1.05 with 300ms transition
-
-#### Project Cards Animations
-
-- Card reveal: Fade up with 0.5s duration
-- Hover: Scale 1.02 with shadow increase
-- Image: Subtle zoom on hover (scale 1.1)
-- Text: Fade in from bottom on hover
-
-#### Navigation Animations
-
-- Menu items: Hover underline effect
-- Mobile menu: Slide in from right
-- Scroll behavior: Hide/show based on scroll direction
-
-#### Form Animations
-
-- Input focus: Scale border bottom
-- Button hover: Scale 1.05 with background shift
-- Success/Error: Slide and fade notifications
-
-#### 2.3 Projects Components
-
-[ ] 2.3.1 Create ProjectCard.jsx component
-[ ] 2.3.2 Implement ProjectGrid.jsx layout
-[ ] 2.3.3 Add sample project data
-[ ] 2.3.4 Implement grid responsive design
-
-#### 2.4 Services Components
-
-[ ] 2.4.1 Create ServiceItem.jsx component
-[ ] 2.4.2 Implement ServicesList.jsx layout
-[ ] 2.4.3 Add sample service data
-[ ] 2.4.4 Add responsive layout adjustments
-
-### Full-Width Container Implementation Checklist
-
-#### Phase 1: Layout Component Modification
-
-[X] 1.1. Remove max-width constraint from Layout main content
-[X] 1.2. Test impact on existing sections - Modified ScrollSection to support w-screen - Added consistent max-w-7xl content spacing - Maintained section-specific content centering
-[X] 1.3. Verify navigation and footer still work correctly - Restored max-w-7xl spacing in Navigation - Restored max-w-7xl spacing in Footer - Maintained full-width backgrounds
-
-#### Phase 2: AboutIntro Normalization
-
-[~] 2.1. Remove translateX transform - Adjusted to -9.1% to fully cover left gap - Will remove once we find better solution
-[X] 2.2. Remove explicit margin/padding resets
-[X] 2.3. Normalize w-screen usage
-[X] 2.4. Test scroll animations still work
-[X] 2.5. Verify canvas background still covers correctly
-
-#### Phase 3: Consistent Section Pattern
-
-[X] 3.1. Create w-screen pattern for Hero - Added w-screen to section - Updated content constraints to match global pattern
-[ ] 3.2. Apply to FeaturedProjects
-[ ] 3.3. Apply to Services
-[ ] 3.4. Apply to Contact
-[ ] 3.5. Verify all sections maintain their unique features
-
-#### Phase 4: Testing & Verification
-
-[ ] 4.1. Test all breakpoints
-[ ] 4.2. Verify all animations
-[ ] 4.3. Check sticky positioning
-[ ] 4.4. Validate scroll behavior
-[ ] 4.5. Final visual inspection
+- Each step will be marked with [X] when fully completed
+- Steps will remain [ ] if partially done or pending verification
+- Dependencies between steps will be noted and tracked
