@@ -1,0 +1,279 @@
+/* Arcade-style hover effects for blog components */
+
+/* Card hover effects */
+.cardHover {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  will-change: transform, box-shadow;
+}
+
+.cardHover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid rgba(255, 255, 255, 0);
+  border-radius: inherit;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  z-index: 1;
+}
+
+.cardHover:hover::before {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.2),
+    inset 0 0 15px rgba(16, 185, 129, 0.1);
+}
+
+/* Pixelated edge effect on hover */
+.cardHover::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0) 1px, transparent 1px);
+  background-size: 4px 4px;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cardHover:hover::after {
+  opacity: 0.1;
+}
+
+/* Button hover effects */
+.buttonHover {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  overflow: hidden;
+  will-change: transform, color, background-color;
+}
+
+.buttonHover::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transition: transform 0.6s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.buttonHover:hover::after {
+  transform: translateX(200%);
+}
+
+/* Active button state */
+.buttonHover:active {
+  transform: scale(0.97);
+}
+
+/* Flickering neon effect */
+.neonFlicker {
+  animation: none;
+  position: relative;
+  transition: text-shadow 0.2s ease;
+}
+
+/* Remove direct hover and replace with group-hover functionality */
+/* .neonFlicker:hover {
+  animation: neon-flicker 2s linear infinite;
+} */
+
+/* Apply animation when parent group is hovered */
+:global(.group:hover) .neonFlicker {
+  animation: neon-flicker 2s linear infinite;
+}
+
+@keyframes neon-flicker {
+  0%,
+  19.999%,
+  22%,
+  62.999%,
+  64%,
+  64.999%,
+  70%,
+  100% {
+    opacity: 1;
+    text-shadow: 0 0 4px rgba(16, 185, 129, 0.8),
+      0 0 11px rgba(16, 185, 129, 0.6), 0 0 19px rgba(16, 185, 129, 0.4);
+  }
+  20%,
+  21.999%,
+  63%,
+  63.999%,
+  65%,
+  69.999% {
+    opacity: 0.7;
+    text-shadow: none;
+  }
+}
+
+/* Link hover effects */
+.linkHover {
+  position: relative;
+  transition: all 0.2s ease;
+  will-change: color;
+}
+
+.linkHover::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1px;
+  background-color: #10b981;
+  transition: width 0.3s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+  will-change: width;
+}
+
+.linkHover:hover {
+  color: #fff;
+}
+
+.linkHover:hover::after {
+  width: 100%;
+}
+
+/* Focus state animations */
+.focusState {
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.focusState:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.5);
+}
+
+/* Micro-interaction effects */
+.microInteraction {
+  transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+  will-change: transform;
+}
+
+.microInteraction:active {
+  transform: scale(0.97);
+}
+
+/* Arcade Button Effect */
+.arcadeButton {
+  position: relative;
+  transition: all 0.15s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.arcadeButton::before {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0 0 4px 4px;
+  transition: all 0.15s ease;
+}
+
+.arcadeButton:hover {
+  transform: translateY(-2px);
+}
+
+.arcadeButton:active {
+  transform: translateY(2px);
+}
+
+.arcadeButton:active::before {
+  height: 0;
+  bottom: 0;
+}
+
+/* Pulse Effect */
+.pulseEffect {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+/* Glitch Effect */
+.glitchEffect {
+  position: relative;
+}
+
+/* Also modify glitchEffect to work with group hover */
+/* .glitchEffect:hover {
+  animation: glitch 0.5s linear;
+} */
+
+:global(.group:hover) .glitchEffect {
+  animation: glitch 0.5s linear;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+/* Exit animations */
+.exitAnimationParent {
+  position: relative;
+  overflow: hidden;
+}
+
+.exitAnimation {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  will-change: transform, opacity;
+}
+
+.exitAnimation.exit {
+  transform: translateY(10px);
+  opacity: 0;
+}
