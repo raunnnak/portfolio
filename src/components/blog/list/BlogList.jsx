@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useState, useMemo } from 'react';
 import BlogLayout from '../layout/BlogLayout';
 import { blogPosts } from '../../../data/blogPosts';
+import styles from './BlogList.module.css';
 
 const POSTS_PER_PAGE = 6;
 
@@ -94,18 +95,24 @@ const BlogList = () => {
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
               />
               <div className="absolute bottom-0 left-0 right-0 p-8 z-20">
-                <span className="text-sm text-emerald-400 mb-2 block">{featuredPost.category.name}</span>
-                <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                  {featuredPost.title}
+                <span className={styles.blogCategory}>{featuredPost.category.name}</span>
+                <h1 className={styles.featuredTitle}>
+                  {featuredPost.title.split(' ').map((word, i) => 
+                    i === 1 ? (
+                      <span key={i} className={styles.featuredTitleAccent}> {word} </span>
+                    ) : (
+                      <span key={i}> {word} </span>
+                    )
+                  )}
                 </h1>
-                <p className="text-lg text-gray-300 mb-4 max-w-2xl">
+                <p className="text-lg text-gray-300 mb-4 max-w-2xl font-[200]">
                   {featuredPost.excerpt}
                 </p>
                 <div className="flex items-center gap-4">
-                  <span className="px-6 py-2 bg-white text-black rounded-full group-hover:bg-gray-100 transition-colors">
+                  <span className={`${styles.readMore} px-6 py-2 bg-white text-black rounded-full group-hover:bg-gray-100 transition-colors`}>
                     Read More
                   </span>
-                  <span className="text-sm text-gray-400">{featuredPost.readingTime} min read</span>
+                  <span className="text-sm text-gray-400 font-[200]">{featuredPost.readingTime} min read</span>
                 </div>
               </div>
             </motion.div>
@@ -116,7 +123,9 @@ const BlogList = () => {
       {/* Blog Grid Section */}
       <section>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-          <h2 className="text-2xl font-semibold">Latest Posts</h2>
+          <h2 className={styles.sectionTitle}>
+            Latest <span className={styles.sectionTitleAccent}>Posts</span>
+          </h2>
           <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
             {/* Search and Filters */}
             <div className="flex gap-4 w-full md:w-auto">
@@ -125,12 +134,12 @@ const BlogList = () => {
                 placeholder="Search posts..."
                 value={searchQuery}
                 onChange={handleSearch}
-                className="px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:border-gray-500 w-full md:w-64"
+                className={`${styles.searchInput} px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:border-gray-500 w-full md:w-64`}
               />
               <select
                 value={selectedCategory}
                 onChange={(e) => handleCategoryChange(e.target.value)}
-                className="px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:border-gray-500"
+                className={`${styles.filterLabel} px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:border-gray-500`}
               >
                 <option value="">All Categories</option>
                 {categories.map(category => (
@@ -142,7 +151,7 @@ const BlogList = () => {
               <select
                 value={selectedTag}
                 onChange={(e) => handleTagChange(e.target.value)}
-                className="px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:border-gray-500"
+                className={`${styles.filterLabel} px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:border-gray-500`}
               >
                 <option value="">All Tags</option>
                 {tags.map(tag => (
@@ -178,16 +187,16 @@ const BlogList = () => {
                   />
                 </div>
                 <div className="p-6">
-                  <span className="text-sm text-emerald-400 mb-2 block">{post.category.name}</span>
-                  <h3 className="text-xl font-semibold mb-2 group-hover:text-emerald-400 transition-colors">
+                  <span className={styles.blogCategory}>{post.category.name}</span>
+                  <h3 className={`${styles.postTitle} mb-2 group-hover:text-emerald-400`}>
                     {post.title}
                   </h3>
-                  <p className="text-gray-400 mb-4">
+                  <p className="text-gray-400 mb-4 font-[200]">
                     {post.excerpt}
                   </p>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-500">{post.readingTime} min read</span>
-                    <span className="text-sm text-emerald-400 group-hover:translate-x-1 transition-transform">
+                    <span className="text-sm text-gray-500 font-[200]">{post.readingTime} min read</span>
+                    <span className={`${styles.readMore} text-emerald-400 group-hover:translate-x-1 transition-transform`}>
                       Read More →
                     </span>
                   </div>

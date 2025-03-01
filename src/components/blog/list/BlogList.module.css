@@ -1,0 +1,35 @@
+.blogCategory {
+  @apply text-[11px] tracking-[0.25em] uppercase font-['Pixelify_Sans'] font-[300];
+}
+
+.featuredTitle {
+  @apply text-4xl md:text-5xl font-[200] tracking-[-0.02em] leading-[1.15];
+}
+
+.featuredTitleAccent {
+  @apply font-['Cormorant'] italic font-[700] text-5xl md:text-6xl tracking-[0.02em];
+}
+
+.sectionTitle {
+  @apply text-2xl font-[200] tracking-[-0.02em];
+}
+
+.sectionTitleAccent {
+  @apply font-['Cormorant'] italic font-[700] text-3xl tracking-[0.02em];
+}
+
+.postTitle {
+  @apply text-xl font-[200] tracking-[-0.02em] transition-colors;
+}
+
+.searchInput {
+  @apply font-['Pixelify_Sans'] text-[11px] tracking-[0.15em] uppercase;
+}
+
+.filterLabel {
+  @apply font-['Pixelify_Sans'] text-[11px] tracking-[0.15em] uppercase;
+}
+
+.readMore {
+  @apply font-['Pixelify_Sans'] text-[11px] tracking-[0.25em] uppercase font-[300];
+}
