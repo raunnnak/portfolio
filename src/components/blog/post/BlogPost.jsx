@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -8,13 +8,18 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import BlogLayout from '../layout/BlogLayout';
 import { blogPosts } from '../../../data/blogPosts';
+import styles from '../list/BlogList.module.css';
 
 const BlogPost = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Scroll to top when post changes
+    window.scrollTo(0, 0);
+    
     // Simulate API call delay
     setLoading(true);
     setTimeout(() => {
@@ -24,10 +29,14 @@ const BlogPost = () => {
     }, 500);
   }, [slug]);
 
+  const handleBack = () => {
+    navigate('/blog');
+  };
+
   if (loading) {
     return (
       <BlogLayout>
-        <div className="max-w-4xl mx-auto animate-pulse">
+        <div className="max-w-4xl mx-auto px-8 animate-pulse">
           <div className="h-8 w-24 bg-gray-800 rounded mb-4" />
           <div className="h-12 w-3/4 bg-gray-800 rounded mb-8" />
           <div className="h-64 bg-gray-800 rounded-2xl mb-8" />
@@ -44,15 +53,17 @@ const BlogPost = () => {
   if (!post) {
     return (
       <BlogLayout>
-        <div className="text-center py-20">
-          <h1 className="text-4xl font-bold mb-4">Post Not Found</h1>
-          <p className="text-gray-400 mb-8">The blog post you're looking for doesn't exist.</p>
-          <Link 
-            to="/blog"
-            className="px-6 py-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors"
-          >
+        <div className="max-w-4xl mx-auto px-8">
+          <button onClick={handleBack} className={styles.backButton}>
+            <svg className={styles.backButtonIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
             Back to Blog
-          </Link>
+          </button>
+          <div className="text-center py-12">
+            <h1 className="text-2xl font-[200] mb-4">Post Not Found</h1>
+            <p className="text-gray-400 font-[200]">The post you're looking for doesn't exist.</p>
+          </div>
         </div>
       </BlogLayout>
     );
@@ -60,41 +71,39 @@ const BlogPost = () => {
 
   return (
     <BlogLayout>
-      <article className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto px-8">
+        {/* Back Button */}
+        <button onClick={handleBack} className={styles.backButton}>
+          <svg className={styles.backButtonIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Blog
+        </button>
+
         {/* Post Header */}
-        <motion.header
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-12"
         >
-          <div className="flex items-center gap-4 mb-6">
-            <Link 
-              to={`/blog/category/${post.category.slug}`}
-              className="text-emerald-400 hover:text-emerald-300 transition-colors"
-            >
-              {post.category.name}
-            </Link>
-            <span className="text-gray-400">•</span>
-            <span className="text-gray-400">{post.readingTime} min read</span>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            {post.title}
+          <span className={styles.blogCategory}>{post.category.name}</span>
+          <h1 className="text-4xl md:text-5xl font-[200] tracking-[-0.02em] leading-[1.15] text-white/90 mt-4 mb-6">
+            {post.title.split(' ').map((word, i) => 
+              i === 1 ? (
+                <span key={i} className="font-['Cormorant'] italic font-[700] text-5xl md:text-6xl tracking-[0.02em] text-white">
+                  {word}{' '}
+                </span>
+              ) : (
+                <span key={i}>{word}{' '}</span>
+              )
+            )}
           </h1>
-          <p className="text-xl text-gray-300 mb-8">
-            {post.excerpt}
-          </p>
-          <div className="flex items-center gap-4">
-            <img
-              src={post.author.avatar}
-              alt={post.author.name}
-              className="w-12 h-12 rounded-full"
-            />
-            <div>
-              <h3 className="font-medium">{post.author.name}</h3>
-              <p className="text-sm text-gray-400">Posted on {new Date(post.publishedAt).toLocaleDateString()}</p>
-            </div>
+          <div className="flex items-center gap-4 text-gray-400">
+            <span className="font-[200]">{post.readingTime} min read</span>
+            <span className="font-[200]">•</span>
+            <span className="font-[200]">{new Date(post.publishedAt).toLocaleDateString()}</span>
           </div>
-        </motion.header>
+        </motion.div>
 
         {/* Featured Image */}
         <motion.div
@@ -193,19 +202,18 @@ const BlogPost = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="mt-12 mb-16"
+          className="flex flex-wrap gap-2 mb-8"
         >
-          <div className="flex flex-wrap gap-2">
-            {post.tags.map(tag => (
-              <Link
-                key={tag.id}
-                to={`/blog/tag/${tag.slug}`}
-                className="px-4 py-2 bg-gray-900 rounded-full text-sm hover:bg-gray-800 transition-colors"
-              >
-                #{tag.name}
-              </Link>
-            ))}
-          </div>
+          {post.tags.map(tag => (
+            <Link
+              key={tag.id}
+              to={`/blog?tag=${tag.slug}`}
+              className="px-4 py-1 bg-gray-800 rounded-full text-sm hover:bg-gray-700 transition-colors"
+              onClick={() => window.scrollTo(0, 0)}
+            >
+              #{tag.name}
+            </Link>
+          ))}
         </motion.div>
 
         {/* Share Section */}
@@ -263,6 +271,7 @@ const BlogPost = () => {
                   key={relatedPost.id}
                   to={`/blog/${relatedPost.slug}`}
                   className="block"
+                  onClick={() => window.scrollTo(0, 0)}
                 >
                   <motion.article
                     initial={{ opacity: 0, y: 20 }}
@@ -296,7 +305,7 @@ const BlogPost = () => {
               ))}
           </div>
         </motion.div>
-      </article>
+      </div>
     </BlogLayout>
   );
 };

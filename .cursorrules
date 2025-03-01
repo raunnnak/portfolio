@@ -158,6 +158,15 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
 - Verify all imports work after moving files
 - Clean up empty directories and unused template files
 - Keep documentation up to date with actual codebase structure
+- Layout spacing should match homepage's rhythm:
+  - Main container max-width: 1280px
+  - Featured post height: 60vh
+  - Grid gaps: 2rem (32px)
+  - Card padding: 1.5rem (24px)
+  - Section spacing: 4rem (64px)
+- Use CSS modules for consistent spacing across components
+- Maintain responsive behavior when updating layouts
+- Keep grid system flexible for different screen sizes
 
 # Scratchpad
 
@@ -291,34 +300,34 @@ IMPORTANT: NO FUNCTIONALITY CHANGES ALLOWED - PURE STYLING UPDATES ONLY
 [X] Update search and filters typography
 [X] Verify all typography changes preserve functionality
 
-#### Phase 2: Color and Theme [Not Started]
+#### Phase 2: Color and Theme [In Progress]
 
-[ ] 2.1. Color Palette Implementation
-[ ] Extract exact colors from homepage
-[ ] Update background colors
-[ ] Update text colors
-[ ] Update accent colors
-[ ] Implement hover state colors
+[X] 2.1. Color Palette Implementation
+[X] Extract exact colors from homepage
+[X] Update background colors
+[X] Update text colors
+[X] Update accent colors
+[X] Implement hover state colors
 
-[ ] 2.2. Dark Theme Integration
-[ ] Apply dark background matching homepage
-[ ] Update contrast ratios
-[ ] Verify readability
-[ ] Match homepage's color transitions
+[X] 2.2. Dark Theme Integration
+[X] Apply dark background matching homepage
+[X] Update contrast ratios
+[X] Verify readability
+[X] Match homepage's color transitions
 
-#### Phase 3: Layout and Spacing [Not Started]
+#### Phase 3: Layout and Spacing [In Progress]
 
-[ ] 3.1. Grid System
-[ ] Match homepage's grid spacing
-[ ] Update padding and margins
-[ ] Align with homepage's whitespace pattern
-[ ] Preserve responsive behavior
+[X] 3.1. Grid System
+[X] Match homepage's grid spacing
+[X] Update padding and margins
+[X] Align with homepage's whitespace pattern
+[X] Preserve responsive behavior
 
-[ ] 3.2. Component Spacing
-[ ] Update card spacing
-[ ] Match section padding
-[ ] Align with homepage's vertical rhythm
-[ ] Verify mobile responsiveness
+[X] 3.2. Component Spacing
+[X] Update card spacing
+[X] Match section padding
+[X] Align with homepage's vertical rhythm
+[X] Verify mobile responsiveness
 
 #### Phase 4: Animations and Transitions [Not Started]
 
@@ -358,30 +367,30 @@ IMPORTANT: NO FUNCTIONALITY CHANGES ALLOWED - PURE STYLING UPDATES ONLY
 - [ ] Responsive behavior maintained
 - [ ] Accessibility preserved
 
-### Current Status: Typography Phase Complete
+### Current Status: Layout and Spacing Phase Complete
 
-Next Step: Begin Color and Theme Phase
+Next Step: Begin Animations and Transitions Phase
 
 ### Latest Changes (2024-03-01)
 
-1. Created BlogList.module.css with typography styles
-2. Updated BlogList.jsx with new typography classes
-3. Applied Cormorant italic sparingly:
-   - Second word in featured post title
-   - "Posts" in section title
-4. Applied Pixelify Sans to:
-   - Category labels
-   - "Read More" text
-   - Search and filter inputs
-5. Maintained consistent font weights:
-   - font-[200] for regular text
-   - font-[700] for Cormorant accents
+1. Updated BlogList component with new spacing classes
+2. Implemented consistent grid system matching homepage
+3. Added proper spacing for all components
+4. Maintained responsive behavior
+5. Verified mobile layout
 
 ### Next Actions
 
-1. Begin Color and Theme phase
-2. Extract exact colors from homepage
-3. Update dark theme implementation
+1. Begin Animations and Transitions phase
+2. Implement loading animations
+3. Update hover effects
+4. Match homepage's interaction patterns
+
+## Lessons learned
+
+- @apply should not be used with the 'group' utility in Tailwind CSS
+- Use vanilla CSS properties when dealing with complex utility combinations
+- Add group class directly in JSX when needed
 
 # Process Management
 
