@@ -56,16 +56,24 @@
 }
 
 .postCard {
-  @apply bg-black/30 backdrop-blur-sm rounded-xl overflow-hidden transition-all duration-150;
+  @apply bg-black/30 backdrop-blur-sm rounded-xl overflow-hidden transition-all duration-150 w-full md:w-[65%];
 }
 
 .postCard:hover {
   @apply ring-1 ring-white/10;
 }
 
+.postCard[data-even="true"] {
+  @apply ml-0;
+}
+
+.postCard[data-even="false"] {
+  @apply ml-auto;
+}
+
 /* Layout and Spacing Classes */
 .mainContainer {
-  @apply w-full max-w-[120rem] mx-auto px-8;
+  @apply w-full;
 }
 
 /* Featured Post Section */
@@ -87,28 +95,73 @@
 
 /* Blog Content Layout */
 .blogContentWrapper {
-  @apply flex flex-col md:flex-row gap-12;
+  @apply flex flex-col md:flex-row gap-12 min-h-screen;
 }
 
 /* Left Side - Sticky Header */
 .blogHeader {
-  @apply w-full md:w-1/4 md:sticky md:top-40 mb-16 md:mb-0;
+  @apply w-full md:w-1/4 flex flex-col gap-16;
+}
+
+/* Back Button Container */
+.backButtonContainer {
+  @apply md:sticky md:top-12 h-fit;
+}
+
+/* Main Header Container */
+.mainHeaderContainer {
+  @apply md:sticky md:top-40 h-fit;
 }
 
 .blogHeaderContent {
   @apply flex flex-col items-start text-left;
 }
 
+/* Back Button */
+.backButton {
+  @apply flex items-center gap-2 text-[11px] tracking-[0.25em] uppercase font-['Pixelify_Sans'] font-[300] text-gray-400 hover:text-white transition-colors;
+}
+
+.backButtonIcon {
+  @apply w-4 h-4;
+}
+
+/* Header Text Content */
+.headerTextGroup {
+  @apply space-y-16;
+}
+
+.titleGroup {
+  @apply space-y-8;
+}
+
 .blogLabel {
-  @apply text-[0.6rem] tracking-[0.25em] text-white uppercase font-['Pixelify_Sans'] whitespace-nowrap mb-8;
+  @apply text-[0.6rem] tracking-[0.25em] text-white uppercase font-['Pixelify_Sans'] whitespace-nowrap;
 }
 
 .blogTitle {
-  @apply text-2xl md:text-3xl lg:text-4xl font-[200] tracking-[-0.02em] max-w-lg mb-4;
+  @apply text-2xl md:text-3xl lg:text-4xl font-[200] tracking-[-0.02em] max-w-lg;
 }
 
 .blogDescription {
   @apply text-xs md:text-sm text-gray-400 font-[200] tracking-[-0.01em] max-w-[65rem];
+}
+
+/* Search Section */
+.searchSection {
+  @apply space-y-8 w-full;
+}
+
+.searchFilters {
+  @apply space-y-4;
+}
+
+.searchInput {
+  @apply w-full font-['Pixelify_Sans'] text-[11px] tracking-[0.15em] uppercase bg-black/30 border border-white/10 text-white placeholder-gray-500 focus:border-white/20 focus:outline-none px-4 py-2 rounded-lg;
+}
+
+.filterLabel {
+  @apply w-full font-['Pixelify_Sans'] text-[11px] tracking-[0.15em] uppercase bg-black/30 border border-white/10 text-white focus:border-white/20 focus:outline-none px-4 py-2 rounded-lg;
 }
 
 /* Right Side - Blog Posts */
@@ -122,16 +175,7 @@
 
 /* Blog Grid */
 .gridLayout {
-  @apply grid grid-cols-1 md:grid-cols-2 gap-8;
-}
-
-/* Back Button */
-.backButton {
-  @apply flex items-center gap-2 text-[11px] tracking-[0.25em] uppercase font-['Pixelify_Sans'] font-[300] text-gray-400 hover:text-white transition-colors mb-8;
-}
-
-.backButtonIcon {
-  @apply w-4 h-4;
+  @apply flex flex-col gap-24;
 }
 
 /* Post Cards */

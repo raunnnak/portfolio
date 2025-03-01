@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
@@ -7,6 +7,7 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDarkBg, setIsDarkBg] = useState(true);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -16,9 +17,12 @@ const Navigation = () => {
   };
 
   const scrollToSection = (sectionId) => {
-    // If we're not on the homepage, first navigate there
+    // If we're not on the homepage, navigate there first
     if (location.pathname !== '/') {
-      window.location.href = `/#${sectionId}`;
+      navigate('/', { 
+        replace: true,
+        state: { scrollTarget: sectionId }
+      });
       return;
     }
     
@@ -30,7 +34,6 @@ const Navigation = () => {
     if (section) {
       const navHeight = 48; // height of the navigation bar
       const elementPosition = section.getBoundingClientRect().top;
-      // We want the top of the section to align with the navigation bar
       const offsetPosition = elementPosition + window.pageYOffset + navHeight;
       
       window.scrollTo({
@@ -39,6 +42,30 @@ const Navigation = () => {
       });
     }
   };
+
+  // Handle scroll to section after navigation
+  useEffect(() => {
+    if (location.pathname === '/' && location.state?.scrollTarget) {
+      const sectionId = location.state.scrollTarget;
+      // Small delay to ensure the page is fully loaded
+      setTimeout(() => {
+        const section = document.querySelector(`#${sectionId}`) || 
+                       document.querySelector(`section[data-section="${sectionId}"]`) ||
+                       document.querySelector(`section:has(.${sectionId})`);
+        
+        if (section) {
+          const navHeight = 48;
+          const elementPosition = section.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset + navHeight;
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+        }
+      }, 100);
+    }
+  }, [location]);
 
   // Handle background detection for contrast
   useEffect(() => {
@@ -83,7 +110,7 @@ const Navigation = () => {
   const menuItems = [
     { number: '01', text: 'Projects', path: '/#featured-projects', isSection: true, sectionId: 'featured-projects' },
     { number: '02', text: 'Services', path: '/#services', isSection: true, sectionId: 'services' },
-    { number: '03', text: 'Blog', path: '/blog' },
+    { number: '03', text: 'Blog', path: '/blog', onClick: () => window.scrollTo({ top: 0, behavior: 'smooth' }) },
   ];
 
   const textColor = isDarkBg ? 'text-white' : 'text-neutral-900';
@@ -99,8 +126,10 @@ const Navigation = () => {
           <Link 
             to="/"
             onClick={(e) => {
-              e.preventDefault();
-              scrollToTop();
+              if (location.pathname !== '/') {
+                navigate('/');
+              }
+              window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             className={`relative flex items-center h-12 focus:outline-none group`}
           >
@@ -117,8 +146,8 @@ const Navigation = () => {
                 transition={{ duration: 0.2 }}
                 className={`h-full w-auto object-contain transition-all duration-300 ${
                   isDarkBg 
-                    ? 'brightness-0 invert opacity-100 group-hover:opacity-80' 
-                    : 'brightness-0 opacity-100 group-hover:opacity-60'
+                    ? 'brightness-0 invert group-hover:brightness-100 group-hover:invert-0 group-hover:[filter:invert(27%)_sepia(51%)_saturate(2476%)_hue-rotate(341deg)_brightness(97%)_contrast(97%)]' 
+                    : 'brightness-0 group-hover:brightness-100 group-hover:[filter:invert(27%)_sepia(51%)_saturate(2476%)_hue-rotate(341deg)_brightness(97%)_contrast(97%)]'
                 }`}
               />
             </motion.div>
@@ -134,6 +163,8 @@ const Navigation = () => {
                   if (item.isSection) {
                     e.preventDefault();
                     scrollToSection(item.sectionId);
+                  } else if (item.onClick) {
+                    item.onClick();
                   }
                   setIsOpen(false);
                 }}
@@ -215,6 +246,8 @@ const Navigation = () => {
                       if (item.isSection) {
                         e.preventDefault();
                         scrollToSection(item.sectionId);
+                      } else if (item.onClick) {
+                        item.onClick();
                       }
                       setIsOpen(false);
                     }}

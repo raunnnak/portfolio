@@ -16,6 +16,17 @@ const BlogList = () => {
   const [selectedTag, setSelectedTag] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
+  // Reset all filters when navigating directly to /blog
+  useEffect(() => {
+    if (location.pathname === '/blog' && !location.search) {
+      setSearchQuery('');
+      setSelectedCategory('');
+      setSelectedTag('');
+      setCurrentPage(1);
+      setSearchParams({});
+    }
+  }, [location.pathname, location.search]);
+
   // Handle URL parameters
   useEffect(() => {
     const tagFromUrl = searchParams.get('tag');
@@ -155,75 +166,84 @@ const BlogList = () => {
 
         {/* Blog Content */}
         <div className={styles.blogContentWrapper}>
-          {/* Left side - Sticky Header */}
+          {/* Left side - Header */}
           <div className={styles.blogHeader}>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.8 }}
-              className={styles.blogHeaderContent}
-            >
-              {/* Back Button */}
+            {/* Back Button - Sticks at top */}
+            <div className={styles.backButtonContainer}>
               <button onClick={handleBack} className={styles.backButton}>
                 <svg className={styles.backButtonIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
                 {isFiltered ? 'Clear Filters' : 'Back to Home'}
               </button>
+            </div>
 
-              <motion.div className="flex items-center gap-1 mb-8">
-                <span className={styles.blogLabel}>
-                  {'{'} LATEST ARTICLES {'}'}
-                </span>
+            {/* Main Header - Sticks at Featured Projects height */}
+            <div className={styles.mainHeaderContainer}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.8 }}
+                className={styles.blogHeaderContent}
+              >
+                <div className={styles.headerTextGroup}>
+                  <div className={styles.titleGroup}>
+                    <span className={styles.blogLabel}>
+                      {'{'} LATEST ARTICLES {'}'}
+                    </span>
+
+                    <h2 className={styles.blogTitle}>
+                      Insights about <br />
+                      <span className="font-['Cormorant'] italic font-[700] text-[1.2em] tracking-[0.03em]">
+                        design & development
+                      </span>
+                    </h2>
+
+                    <p className={styles.blogDescription}>
+                      Exploring the intersection of design, technology, and user experience through in-depth articles and case studies.
+                    </p>
+                  </div>
+
+                  {/* Search and Filters */}
+                  <div className={styles.searchSection}>
+                    <input
+                      type="search"
+                      placeholder="Search posts..."
+                      value={searchQuery}
+                      onChange={handleSearch}
+                      className={styles.searchInput}
+                    />
+                    <div className={styles.searchFilters}>
+                      <select
+                        value={selectedCategory}
+                        onChange={(e) => handleCategoryChange(e.target.value)}
+                        className={styles.filterLabel}
+                      >
+                        <option value="">All Categories</option>
+                        {categories.map(category => (
+                          <option key={category.id} value={category.slug}>
+                            {category.name}
+                          </option>
+                        ))}
+                      </select>
+                      <select
+                        value={selectedTag}
+                        onChange={(e) => handleTagChange(e.target.value)}
+                        className={styles.filterLabel}
+                      >
+                        <option value="">All Tags</option>
+                        {tags.map(tag => (
+                          <option key={tag.id} value={tag.slug}>
+                            {tag.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
-
-              <motion.h2 className={styles.blogTitle}>
-                Insights about <br />
-                <span className="font-['Cormorant'] italic font-[700] text-[1.2em] tracking-[0.03em]">
-                  design & development
-                </span>
-              </motion.h2>
-
-              <motion.p className={styles.blogDescription}>
-                Exploring the intersection of design, technology, and user experience through in-depth articles and case studies.
-              </motion.p>
-
-              {/* Search and Filters */}
-              <div className={styles.searchFilters}>
-                <input
-                  type="search"
-                  placeholder="Search posts..."
-                  value={searchQuery}
-                  onChange={handleSearch}
-                  className={`${styles.searchInput} px-4 py-2 rounded-lg w-full`}
-                />
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => handleCategoryChange(e.target.value)}
-                  className={`${styles.filterLabel} px-4 py-2 rounded-lg w-full`}
-                >
-                  <option value="">All Categories</option>
-                  {categories.map(category => (
-                    <option key={category.id} value={category.slug}>
-                      {category.name}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  value={selectedTag}
-                  onChange={(e) => handleTagChange(e.target.value)}
-                  className={`${styles.filterLabel} px-4 py-2 rounded-lg w-full`}
-                >
-                  <option value="">All Tags</option>
-                  {tags.map(tag => (
-                    <option key={tag.id} value={tag.slug}>
-                      {tag.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* Right side - Blog Posts */}
@@ -244,6 +264,7 @@ const BlogList = () => {
                       whileHover={{ y: -5 }}
                       transition={{ delay: index * 0.1, duration: 0.3 }}
                       className={`${styles.postCard} group`}
+                      data-even={index % 2 === 0}
                     >
                       <div className="h-48 overflow-hidden">
                         <img
