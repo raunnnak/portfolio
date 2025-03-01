@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { useState, useMemo, useEffect } from 'react';
 import BlogLayout from '../layout/BlogLayout';
@@ -13,6 +13,14 @@ const BlogList = ({ defaultCategory = '', defaultTag = '' }) => {
   
   // Only keep error state, remove loading state
   const [error, setError] = useState(null);
+
+  // Add scroll progress tracking
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   // Validate and normalize URL parameters
   const validateAndNormalizeParams = () => {
@@ -182,37 +190,94 @@ const BlogList = ({ defaultCategory = '', defaultTag = '' }) => {
 
   return (
     <BlogLayout>
+      {/* Add scroll progress indicator */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1 bg-emerald-400/30 origin-left z-50"
+        style={{ scaleX }}
+      />
+
       <ErrorMessage />
-      {/* Featured Post Section */}
+      {/* Featured Post Section with enhanced animations */}
       {featuredPost && (
-        <section className="mb-16">
+        <section className="mb-32">
+          <div className="flex items-center gap-1 mb-8">
+            <motion.span 
+              className="text-[0.6rem] tracking-[0.25em] text-white/60 uppercase font-['Pixelify_Sans'] whitespace-nowrap"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ 
+                opacity: 1, 
+                y: 0,
+                transition: {
+                  duration: 0.8,
+                  ease: [0.16, 1, 0.3, 1]
+                }
+              }}
+              viewport={{ once: true, margin: "-100px" }}
+            >
+              &#123; FEATURED POST &#125;
+            </motion.span>
+          </div>
           <Link to={`/blog/${featuredPost.slug}`} className="block">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-              className="relative h-[60vh] rounded-2xl overflow-hidden group"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ 
+                opacity: 1, 
+                y: 0,
+                transition: {
+                  duration: 1,
+                  ease: [0.16, 1, 0.3, 1]
+                }
+              }}
+              viewport={{ once: true, margin: "-100px" }}
+              whileHover={{ 
+                scale: 1.02,
+                transition: { type: "spring", stiffness: 300, damping: 20 }
+              }}
+              className="relative h-[70vh] rounded-2xl overflow-hidden group bg-black/30 backdrop-blur-sm border border-white/5"
             >
-              <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent z-10" />
-              <img
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"
+                style={{
+                  y: useTransform(scrollYProgress, [0, 0.2], [0, 50])
+                }}
+              />
+              <motion.img
                 src={featuredPost.coverImage}
                 alt={featuredPost.title}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 group-hover:rotate-1"
+                style={{
+                  y: useTransform(scrollYProgress, [0, 0.2], [0, 100])
+                }}
               />
-              <div className="absolute bottom-0 left-0 right-0 p-8 z-20">
-                <span className="text-sm text-emerald-400 mb-2 block">{featuredPost.category.name}</span>
-                <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              <div className="absolute bottom-0 left-0 right-0 p-12 z-20">
+                <motion.span 
+                  className="inline-block px-4 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 text-[0.7rem] tracking-[0.25em] text-emerald-400 uppercase font-['Pixelify_Sans'] mb-6"
+                  whileHover={{
+                    scale: 1.05,
+                    backgroundColor: "rgba(255, 255, 255, 0.15)",
+                  }}
+                >
+                  {featuredPost.category.name}
+                </motion.span>
+                <h1 className="text-[2.5rem] md:text-[3.5rem] font-[200] tracking-[-0.02em] leading-[1.15] mb-6 max-w-4xl text-white">
                   {featuredPost.title}
                 </h1>
-                <p className="text-lg text-gray-300 mb-4 max-w-2xl">
+                <p className="text-base text-gray-300 mb-8 max-w-2xl font-[200] tracking-[-0.01em]">
                   {featuredPost.excerpt}
                 </p>
-                <div className="flex items-center gap-4">
-                  <span className="px-6 py-2 bg-white text-black rounded-full group-hover:bg-gray-100 transition-colors">
-                    Read More
+                <div className="flex items-center gap-6">
+                  <motion.span 
+                    className="px-6 py-2 bg-white/10 backdrop-blur-sm border border-white/10 text-white rounded-full text-sm tracking-wide font-[200]"
+                    whileHover={{
+                      scale: 1.05,
+                      backgroundColor: "rgba(255, 255, 255, 0.15)",
+                    }}
+                  >
+                    Read Article
+                  </motion.span>
+                  <span className="text-[0.7rem] tracking-[0.25em] text-white/60 uppercase font-['Pixelify_Sans']">
+                    {featuredPost.readingTime} min read
                   </span>
-                  <span className="text-sm text-gray-400">{featuredPost.readingTime} min read</span>
                 </div>
               </div>
             </motion.div>
@@ -220,129 +285,180 @@ const BlogList = ({ defaultCategory = '', defaultTag = '' }) => {
         </section>
       )}
 
-      {/* Blog Grid Section */}
-      <section>
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-          <h2 className="text-2xl font-semibold">Latest Posts</h2>
-          <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
-            {/* Search and Filters */}
-            <div className="flex gap-4 w-full md:w-auto">
-              <input
-                type="search"
-                placeholder="Search posts..."
-                value={searchQuery}
-                onChange={handleSearch}
-                className="px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:border-gray-500 w-full md:w-64"
-              />
-              <select
-                value={selectedCategory}
-                onChange={(e) => handleCategoryChange(e.target.value)}
-                className="px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:border-gray-500"
-              >
-                <option value="">All Categories</option>
-                {categories.map(category => (
-                  <option key={category.id} value={category.slug}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-              <select
-                value={selectedTag}
-                onChange={(e) => handleTagChange(e.target.value)}
-                className="px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:border-gray-500"
-              >
-                <option value="">All Tags</option>
-                {tags.map(tag => (
-                  <option key={tag.id} value={tag.slug}>
-                    {tag.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-        </div>
-
-        {/* Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {paginatedPosts.map((post, index) => (
-            <Link 
-              key={post.id}
-              to={`/blog/${post.slug}`}
-              className="block"
+      {/* Blog Grid Section with staggered animations */}
+      <section className="mb-32">
+        <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-16">
+          {/* Left Side - Heading */}
+          <div className="w-full md:w-1/3 md:sticky md:top-40">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.8 }}
+              className="flex flex-col items-start text-left"
             >
-              <motion.article
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                whileHover={{ y: -5 }}
-                transition={{ delay: index * 0.1, duration: 0.3 }}
-                className="bg-gray-900 rounded-xl overflow-hidden group hover:ring-2 hover:ring-emerald-500/50 transition-all"
+              <motion.div 
+                className="flex items-center gap-1 mb-8"
+                transition={{ duration: 0.8 }}
               >
-                <div className="h-48 overflow-hidden">
-                  <img
-                    src={post.coverImage}
-                    alt={post.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                <span className="text-[0.6rem] tracking-[0.25em] text-white/60 uppercase font-['Pixelify_Sans'] whitespace-nowrap">
+                  &#123; LATEST POSTS &#125;
+                </span>
+              </motion.div>
+
+              <motion.h2 
+                className="text-2xl md:text-3xl lg:text-4xl font-[200] tracking-[-0.02em] max-w-lg mb-4"
+                transition={{ duration: 0.8 }}
+              >
+                Exploring the world of{" "}
+                <span className="font-['Cormorant'] italic font-[700] text-[1.2em] tracking-[0.03em]">design</span> and{" "}
+                <span className="font-['Cormorant'] italic font-[700] text-[1.2em] tracking-[0.03em]">development</span>
+              </motion.h2>
+
+              {/* Search and Filters */}
+              <div className="w-full space-y-4 mt-8">
+                <div className="relative">
+                  <input
+                    type="search"
+                    placeholder="Search posts..."
+                    value={searchQuery}
+                    onChange={handleSearch}
+                    className="w-full px-6 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg focus:outline-none focus:border-white/20 transition-all duration-300 text-sm font-[200]"
                   />
                 </div>
-                <div className="p-6">
-                  <span className="text-sm text-emerald-400 mb-2 block">{post.category.name}</span>
-                  <h3 className="text-xl font-semibold mb-2 group-hover:text-emerald-400 transition-colors">
-                    {post.title}
-                  </h3>
-                  <p className="text-gray-400 mb-4">
-                    {post.excerpt}
-                  </p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-500">{post.readingTime} min read</span>
-                    <span className="text-sm text-emerald-400 group-hover:translate-x-1 transition-transform">
-                      Read More →
-                    </span>
-                  </div>
+                
+                <div className="flex gap-4">
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => handleCategoryChange(e.target.value)}
+                    className="flex-1 px-6 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg focus:outline-none focus:border-white/20 transition-all duration-300 text-sm font-[200] appearance-none cursor-pointer"
+                  >
+                    <option value="">All Categories</option>
+                    {categories.map(category => (
+                      <option key={category.id} value={category.slug}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
+                  
+                  <select
+                    value={selectedTag}
+                    onChange={(e) => handleTagChange(e.target.value)}
+                    className="flex-1 px-6 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg focus:outline-none focus:border-white/20 transition-all duration-300 text-sm font-[200] appearance-none cursor-pointer"
+                  >
+                    <option value="">All Tags</option>
+                    {tags.map(tag => (
+                      <option key={tag.id} value={tag.slug}>
+                        {tag.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-              </motion.article>
-            </Link>
-          ))}
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Right Side - Blog Grid with staggered animations */}
+          <div className="w-full md:w-2/3">
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 gap-8"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={{
+                visible: {
+                  transition: {
+                    staggerChildren: 0.15
+                  }
+                }
+              }}
+            >
+              {paginatedPosts.map((post, index) => (
+                <Link key={post.id} to={`/blog/${post.slug}`}>
+                  <motion.article
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      visible: { 
+                        opacity: 1, 
+                        y: 0,
+                        transition: {
+                          duration: 0.8,
+                          ease: [0.16, 1, 0.3, 1]
+                        }
+                      }
+                    }}
+                    whileHover={{ 
+                      scale: 1.02,
+                      transition: { type: "spring", stiffness: 300, damping: 20 }
+                    }}
+                    className="group relative h-[400px] rounded-xl overflow-hidden bg-black/30 backdrop-blur-sm border border-white/5"
+                  >
+                    <motion.div 
+                      className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"
+                      style={{
+                        y: useTransform(scrollYProgress, 
+                          [index * 0.1, (index * 0.1) + 0.2], 
+                          [0, 30]
+                        )
+                      }}
+                    />
+                    <motion.img
+                      src={post.coverImage}
+                      alt={post.title}
+                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 group-hover:rotate-1"
+                      style={{
+                        y: useTransform(scrollYProgress, 
+                          [index * 0.1, (index * 0.1) + 0.2], 
+                          [0, 50]
+                        )
+                      }}
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 p-8 z-20">
+                      <motion.span 
+                        className="inline-block px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 text-[0.6rem] tracking-[0.25em] text-emerald-400 uppercase font-['Pixelify_Sans'] mb-4"
+                        whileHover={{
+                          scale: 1.05,
+                          backgroundColor: "rgba(255, 255, 255, 0.15)",
+                        }}
+                      >
+                        {post.category.name}
+                      </motion.span>
+                      <h3 className="text-xl font-[200] tracking-[-0.02em] leading-tight mb-4 text-white">
+                        {post.title}
+                      </h3>
+                      <div className="flex items-center gap-4">
+                        <span className="text-[0.6rem] tracking-[0.25em] text-white/60 uppercase font-['Pixelify_Sans']">
+                          {post.readingTime} min read
+                        </span>
+                      </div>
+                    </div>
+                  </motion.article>
+                </Link>
+              ))}
+            </motion.div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-16 flex justify-center items-center gap-4">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <motion.button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-[200] transition-all duration-300 ${
+                      currentPage === page
+                        ? 'bg-white/10 backdrop-blur-sm border border-white/20'
+                        : 'bg-white/5 backdrop-blur-sm border border-white/10 hover:border-white/20'
+                    }`}
+                  >
+                    {page}
+                  </motion.button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="mt-12 flex justify-center gap-2">
-            <button
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="px-4 py-2 border border-gray-700 rounded-lg hover:border-gray-500 transition-colors disabled:opacity-50 disabled:hover:border-gray-700"
-            >
-              Previous
-            </button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-              <button
-                key={page}
-                onClick={() => handlePageChange(page)}
-                className={`px-4 py-2 rounded-lg transition-colors ${
-                  currentPage === page
-                    ? 'bg-white text-black'
-                    : 'border border-gray-700 hover:border-gray-500'
-                }`}
-              >
-                {page}
-              </button>
-            ))}
-            <button
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 border border-gray-700 rounded-lg hover:border-gray-500 transition-colors disabled:opacity-50 disabled:hover:border-gray-700"
-            >
-              Next
-            </button>
-          </div>
-        )}
-
-        {/* No Results Message */}
-        {paginatedPosts.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-400">No posts found matching your criteria.</p>
-          </div>
-        )}
       </section>
     </BlogLayout>
   );
