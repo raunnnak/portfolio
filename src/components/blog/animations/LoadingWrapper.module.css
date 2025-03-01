@@ -1,0 +1,189 @@
+/* Blog-specific loading wrapper styles */
+.blogLoadingWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+  z-index: 1000;
+}
+
+.blogLoadingContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 300px;
+  padding: 2rem;
+}
+
+.blogLoadingLabel {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.blogLoadingLabelText {
+  font-family: "Pixelify Sans", sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.25em;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  animation: glitch 5s infinite, glitch-effect 3s infinite;
+}
+
+.blogLoadingBarContainer {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin-bottom: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.blogLoadingBar {
+  height: 100%;
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  background-size: 600px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+.blogLoadingPercentage {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  width: 100%;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.blogLoadingNumber {
+  font-family: "Cormorant", serif;
+  font-style: italic;
+  font-weight: 300;
+  display: inline-block;
+}
+
+.blogLoadingPercent {
+  margin-left: 0.125rem;
+  font-weight: 200;
+}
+
+.blogLoadingScanlines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.3;
+}
+
+.blogLoadingPixelEdges {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.2) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 1px, transparent 1px);
+  background-size: 4px 4px;
+  z-index: 2;
+  opacity: 0.2;
+}
+
+/* Pixelated edges for progress bar */
+.blogLoadingBar::before,
+.blogLoadingBar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background-color: #10b981;
+}
+
+.blogLoadingBar::before {
+  left: 0;
+}
+
+.blogLoadingBar::after {
+  right: 0;
+}
+
+/* Glitch animations */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-1px, 1px);
+  }
+  40% {
+    transform: translate(-1px, -1px);
+  }
+  60% {
+    transform: translate(1px, 1px);
+  }
+  80% {
+    transform: translate(1px, -1px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+@keyframes glitch-effect {
+  0% {
+    opacity: 0.8;
+  }
+  20% {
+    opacity: 0.65;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.65;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+/* Shimmer effect for loading bar */
+@keyframes shimmer {
+  0% {
+    background-position: -300px 0;
+  }
+  100% {
+    background-position: 300px 0;
+  }
+}

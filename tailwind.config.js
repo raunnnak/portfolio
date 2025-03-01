@@ -24,7 +24,17 @@ export default {
         'semibold': '600',
         'bold': '700',
       },
+      aspectRatio: {
+        'auto': 'auto',
+        '1/1': '1 / 1',
+        '16/9': '16 / 9',
+        '4/3': '4 / 3',
+        '3/2': '3 / 2',
+        '2/1': '2 / 1',
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    (function() { try { return require('@tailwindcss/aspect-ratio') } catch (e) { return {} } })(),
+  ],
 } 

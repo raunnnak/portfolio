@@ -42,6 +42,34 @@
   @apply bg-white text-black hover:bg-white/90;
 }
 
+/* Link Components */
+.featuredPostLink {
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  z-index: 10;
+}
+
+.postCardLink {
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  z-index: 10;
+}
+
+.relatedPostLink {
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  z-index: 10;
+}
+
 /* Color Theme Classes */
 .blogContainer {
   @apply bg-transparent text-white relative overflow-hidden;
