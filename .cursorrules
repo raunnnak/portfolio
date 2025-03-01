@@ -167,10 +167,33 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
 - Use CSS modules for consistent spacing across components
 - Maintain responsive behavior when updating layouts
 - Keep grid system flexible for different screen sizes
+- For React Router v6 to prepare for v7 migration, add future flags with:
+  - `<Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>`
+- When using Framer Motion scroll animations, ensure containers have non-static positioning:
+  - Add `position: 'relative'` to the style prop
+  - Or add `className="relative"` for Tailwind projects
+  - Or add both for maximum compatibility
+- For Framer Motion useScroll hook, the target element needs non-static positioning
+- For animations that depend on scroll position, ensure the container has explicit positioning
+- Remember that stack context is affected by positioning, so test that z-index works correctly
 
 # Scratchpad
 
 ## Latest Updates (2024-03-01)
+
+### React Router and Framer Motion Fixes (March 1, 2024)
+
+[X] Added React Router future flags to prepare for v7 migration
+
+- Added v7_startTransition flag
+- Added v7_relativeSplatPath flag
+- Fixed warnings related to these upcoming changes
+
+[X] Fixed Framer Motion positioning warnings
+
+- Added relative positioning to ParallaxSection component
+- Updated AboutIntro component with proper positioning for scroll animations
+- Ensured all containers with scroll animations have non-static positioning
 
 ### Navigation Improvements Completed ✅
 
@@ -493,6 +516,75 @@ Next Step: Begin Animations and Transitions Phase
 24. Enhanced form elements with consistent hover states
 25. Optimized animations with will-change for better performance
 
+### Fixed AboutIntro Animations (2024-03-12)
+
+[X] Fixed squares not emerging from bottom when scrolling
+
+- Positioned particles initially below the viewport
+- Updated animation calculations to move them into view
+- Applied easeOutCubic timing function for natural movement
+
+[X] Fixed scroll text not functioning as intended
+
+- Updated timing points to match main opacity animation
+- Simplified animation with more subtle, consistent movement
+- Improved text readability with shorter animation durations
+
+[X] Enhanced overall animation behavior
+
+- Added position: 'relative' to container for proper scroll calculations
+- Implemented normalized scroll progress relative to section element
+- Improved particle visibility during text fade-out
+- Added proper dependency array to useEffect hook
+- Enhanced cursor interaction with better boundary detection
+- Matched timing points between different animations
+
+### Enhanced AboutIntro Animation Dynamics (2024-03-13)
+
+[X] Made particle movement more dynamic and continuous
+
+- Implemented two-phase animation (emergence + continuous floating)
+- Added hasEmerged flag to track animation state per particle
+- Enhanced particle upward motion based on scroll position
+- Increased floating amplitude and variation parameters
+
+[X] Improved floating behavior when scrolling
+
+- Added continuous upward movement combining base speed + scroll acceleration
+- Applied higher rotation and scale variation parameters
+- Enhanced floating motion with larger amplitudes and varied speeds
+- Made cursor interaction more responsive with larger influence radius
+
+[X] Implemented proper animation flow
+
+- Particles now emerge from bottom then continue floating upward with scroll
+- Movement continues throughout the entire scroll rather than stopping
+- Maintained cursor interaction while improving animation dynamics
+- Fixed drawing logic for better performance
+
+### Added Section Transition Animation (2024-03-13)
+
+[X] Implemented bar graph transition animation
+
+- Created staggered bar graph effect that emerges from bottom of section
+- Added 7 bars with varying heights and widths (no gaps between them)
+- Implemented smooth transition with easeOutExpo timing function
+- Synchronized with scroll position for natural emergence
+
+[X] Enhanced transition timing
+
+- Added individual delays for each bar (staggered animation)
+- Created smooth height growth animation for each bar
+- Applied exponential easing for natural motion
+- Ensured proper cleanup of animation frame IDs
+
+[X] Applied responsive design principles
+
+- Made bars scale with screen width
+- Used relative sizing for consistent proportions
+- Maintained consistent aesthetics across screen sizes
+- Matched theme with full-width design
+
 ### Next Actions
 
 1. Test all animations across different browsers and devices
@@ -539,14 +631,42 @@ Next Step: Begin Animations and Transitions Phase
 - Use CSS pseudo-elements (::before, ::after) for hover effects to avoid cluttering the DOM
 - When using CSS Modules with Tailwind's 'group' functionality, use :global(.group:hover) selector to properly select child elements when their parent is hovered
 - For card-level hover effects that affect contained elements, replace direct :hover selectors with group-hover patterns for more intuitive user interaction
+- When implementing canvas-based animations, ensure particles are positioned initially out of view (below viewport) and animated in
+- For scroll-triggered canvas animations, calculate normalized scroll progress relative to the section element rather than entire page
+- Add `position: 'relative'` to containers with Framer Motion's useScroll hook to ensure proper tracking
+- When using multiple useScroll hooks, ensure consistent offset values across related animations
+- For particle animation timing, keep particles visible as text fades out by tying particle visibility to text opacity
+- Instead of checking specific opacity values (1, 0), use ranges to handle transitions between states
+- Remember to add a dependency array [opacity] to useEffect when animation depends on a motion value
+- For scrolling text indicators, use subtle animations with lower duration (1-2s) rather than complex multi-step animations
+- Match timing points between different animations (0.85, 1) for consistent fade effects
+- For cursor-interactive elements, implement a more natural boundary detection with clear visual feedback
+- For canvas particle animations with continuous motion, implement a two-phase approach: initial emergence followed by continuous movement
+- Use a hasEmerged flag to track when particles have reached their initial positions and should switch to continuous floating mode
+- Make particle animations more dynamic by increasing amplitude, rotation speed, and scale variation parameters
+- Apply both constant upward motion and scroll-based acceleration to particles for a dynamic floating effect
+- For cursor interaction, apply the force to the final x/y position rather than modifying the base positions to prevent jitter
+- Use larger amplitude values (80-120 rather than 30-50) for more noticeable floating movement
+- When tracking scroll position, use a combination of normalized scroll progress and custom multipliers for more natural upward flow
+- For section transitions, use canvas-based animations for better control over drawing low-level shapes
+- When implementing staggered animations, add small delays (0.05-0.1s) between elements for natural flow
+- For bar graph transitions, calculate relative widths based on container width to ensure bars fill the entire space
+- Use exponential easing (easeOutExpo) for quick initial growth and subtle finishing motion
+- Apply transform and opacity transitions together for smoother entries
+- For bar graph animations, multiply progress value (progress \* 3) to start animation earlier in the scroll sequence
+- Position transition elements with absolute positioning at section boundaries
+- Implement proper canvas sizing with resize event listeners for responsive behavior
+- When animating heights, draw from bottom up for a rising effect
+- Create seamless transitions by having bars touch with no gaps between them
+- For canvas animations, always use requestAnimationFrame and clear the animation in cleanup functions
 
 # Process Management
 
 ## Version Control
 
-- Version: 2024.03.01.3
-- Last Updated: 2024-03-01
-- Last Task: Blog Animations Implementation
+- Version: 2024.03.13.2
+- Last Updated: 2024-03-13
+- Last Task: Section Transition Animation
 
 ## Update Triggers
 
@@ -577,9 +697,10 @@ Next Step: Begin Animations and Transitions Phase
 [>] Deferred
 [!] Needs Review
 
-## Current Focus: Blog Animations Implementation
+## Current Focus: Section Transition Animation
 
-- Adding subtle scroll animations and enhanced hover effects
-- Focusing on implementing each microstep perfectly
-- Ensuring no existing functionality or styling is affected
-- Following the detailed implementation plan step by step
+- Implemented bar graph transition animation at section boundary
+- Added staggered emergence of 7 bars with varying heights
+- Synchronized with scroll position for natural transition
+- Applied smooth easing for professional animation effect
+- Integrated with existing AboutIntro animation system

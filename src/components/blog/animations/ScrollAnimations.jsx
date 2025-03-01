@@ -128,7 +128,8 @@ export const ParallaxSection = ({
         y: isInView ? yOffset : 0,
       }}
       transition={{ type: 'spring', stiffness: 10, damping: 20 }}
-      className={className}
+      className={`relative ${className}`}
+      style={{ position: 'relative' }}
       {...props}
     >
       {children}
