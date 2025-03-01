@@ -2,42 +2,25 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { scrollToTop, scrollToSection } from '../../utils/scroll';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDarkBg, setIsDarkBg] = useState(true);
   const location = useLocation();
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+  const handleScrollToTop = () => {
+    scrollToTop();
   };
 
-  const scrollToSection = (sectionId) => {
+  const handleScrollToSection = (sectionId) => {
     // If we're not on the homepage, first navigate there
     if (location.pathname !== '/') {
       window.location.href = `/#${sectionId}`;
       return;
     }
     
-    // Find the section by looking for both direct id and section with data attribute
-    const section = document.querySelector(`#${sectionId}`) || 
-                   document.querySelector(`section[data-section="${sectionId}"]`) ||
-                   document.querySelector(`section:has(.${sectionId})`);
-                   
-    if (section) {
-      const navHeight = 48; // height of the navigation bar
-      const elementPosition = section.getBoundingClientRect().top;
-      // We want the top of the section to align with the navigation bar
-      const offsetPosition = elementPosition + window.pageYOffset + navHeight;
-      
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
-    }
+    scrollToSection(sectionId, 48); // 48px offset for navigation height
   };
 
   // Handle background detection for contrast
@@ -100,7 +83,7 @@ const Navigation = () => {
             to="/"
             onClick={(e) => {
               e.preventDefault();
-              scrollToTop();
+              handleScrollToTop();
             }}
             className={`relative flex items-center h-12 focus:outline-none group`}
           >
@@ -133,7 +116,7 @@ const Navigation = () => {
                 onClick={(e) => {
                   if (item.isSection) {
                     e.preventDefault();
-                    scrollToSection(item.sectionId);
+                    handleScrollToSection(item.sectionId);
                   }
                   setIsOpen(false);
                 }}
@@ -214,7 +197,7 @@ const Navigation = () => {
                     onClick={(e) => {
                       if (item.isSection) {
                         e.preventDefault();
-                        scrollToSection(item.sectionId);
+                        handleScrollToSection(item.sectionId);
                       }
                       setIsOpen(false);
                     }}

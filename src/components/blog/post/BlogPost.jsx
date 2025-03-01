@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll } from 'framer-motion';
 import { useParams, Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -8,11 +8,13 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import BlogLayout from '../layout/BlogLayout';
 import { blogPosts } from '../../../data/blogPosts';
+import ScrollProgress from '../../common/ScrollProgress';
 
 const BlogPost = () => {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
+  const contentRef = useRef(null);
 
   useEffect(() => {
     // Simulate API call delay
@@ -60,7 +62,10 @@ const BlogPost = () => {
 
   return (
     <BlogLayout>
-      <article className="max-w-4xl mx-auto">
+      {/* Section Progress Indicator */}
+      <ScrollProgress type="section" targetRef={contentRef} color="emerald" height="1px" />
+      
+      <article className="max-w-4xl mx-auto" ref={contentRef}>
         {/* Post Header */}
         <motion.header
           initial={{ opacity: 0, y: 20 }}

@@ -2,10 +2,14 @@ import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import Navigation from './Navigation';
 import Footer from './Footer';
+import ScrollProgress from '../common/ScrollProgress';
 
 const Layout = ({ children }) => {
   return (
     <div className="min-h-screen flex flex-col bg-primary text-white">
+      {/* Global Scroll Progress */}
+      <ScrollProgress type="global" color="emerald" height="2px" />
+      
       {/* Navigation */}
       <Navigation />
 
