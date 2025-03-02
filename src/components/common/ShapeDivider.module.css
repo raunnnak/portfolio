@@ -1,0 +1,52 @@
+/* Base styles for the shape divider */
+.shapeDivider {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  z-index: 1;
+  --animation-duration: 22s; /* Default animation duration */
+}
+
+/* Position styles */
+.shapeTop {
+  top: 0;
+  transform: rotate(180deg);
+}
+
+.shapeBottom {
+  bottom: 0;
+}
+
+/* SVG styles */
+.shapeFill {
+  width: 100%;
+  height: 100%;
+  transform: translateX(0);
+}
+
+/* Animation styles */
+.animated .shapeFill {
+  width: 210%; /* Increased width for animation */
+  animation: shapeAnimation var(--animation-duration)
+    cubic-bezier(0.55, 0.085, 0.68, 0.53) infinite;
+}
+
+/* Keyframes for the animation */
+@keyframes shapeAnimation {
+  0% {
+    margin-left: 0;
+  }
+  50% {
+    margin-left: -1600px;
+  }
+  100% {
+    margin-left: 0;
+  }
+}
+
+/* Hide overflow on x-axis to prevent scrollbars */
+:global(body) {
+  overflow-x: hidden;
+}

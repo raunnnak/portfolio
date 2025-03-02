@@ -11,15 +11,33 @@ const Home = () => {
         <Hero />
       </ScrollSection>
 
-      <ScrollSection>
+      <ScrollSection 
+        showTopDivider 
+        showBottomDivider
+        dividerShape="waves"
+        dividerHeight={80}
+        animationDuration={28}
+      >
         <FeaturedProjects />
       </ScrollSection>
 
-      <ScrollSection isBlack>
+      <ScrollSection 
+        isBlack 
+        showTopDivider 
+        showBottomDivider
+        dividerShape="bubbles"
+        dividerHeight={90}
+        animationDuration={25}
+      >
         <AboutIntro />
       </ScrollSection>
 
-      <ScrollSection>
+      <ScrollSection 
+        showTopDivider
+        dividerShape="clouds"
+        dividerHeight={70}
+        animationDuration={30}
+      >
         <ServicesSection />
       </ScrollSection>
     </main>

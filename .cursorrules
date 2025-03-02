@@ -539,6 +539,12 @@ Next Step: Begin Animations and Transitions Phase
 - Use CSS pseudo-elements (::before, ::after) for hover effects to avoid cluttering the DOM
 - When using CSS Modules with Tailwind's 'group' functionality, use :global(.group:hover) selector to properly select child elements when their parent is hovered
 - For card-level hover effects that affect contained elements, replace direct :hover selectors with group-hover patterns for more intuitive user interaction
+- For SVG shape dividers, use width: 210% and animation with margin-left for smooth infinite animation
+- When animating SVG elements, use cubic-bezier timing functions for more natural movement
+- Use CSS custom properties (variables) for animation durations to make them easily customizable
+- Create wrapper components with sensible defaults for complex decorative elements
+- Position shape dividers with absolute positioning and z-index to ensure proper layering
+- Use overflow: hidden on containers to prevent animated elements from causing scrollbars
 
 # Process Management
 
