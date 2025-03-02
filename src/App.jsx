@@ -6,7 +6,7 @@ import BlogPost from './components/blog/post/BlogPost';
 
 function App() {
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
