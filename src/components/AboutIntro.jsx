@@ -175,7 +175,7 @@ const AboutIntro = () => {
         
         const startY = canvas.height + particle.size;
         const targetY = particle.targetY;
-        const baseY = startY - (startY - targetY) * easeOutCubic(particleProgress);
+        let baseY = startY - (startY - targetY) * easeOutCubic(scrollProgress);
         
         const fp = particle.floatParams;
         const time = particle.time;

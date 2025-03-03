@@ -176,6 +176,20 @@ If needed, you can further use the `web_scraper.py` file to scrape the web page 
 - For Framer Motion useScroll hook, the target element needs non-static positioning
 - For animations that depend on scroll position, ensure the container has explicit positioning
 - Remember that stack context is affected by positioning, so test that z-index works correctly
+- For SVG shape dividers:
+  - Use gentle curves with reduced amplitude for more professional look
+  - Keep animation duration longer (28s+) for subtle movement
+  - Use cubic-bezier(0.445, 0.05, 0.55, 0.95) for smooth easing
+  - Use transform: translateX() instead of margin-left for better performance
+  - Reduce animation width to 200% and movement to -25% for subtler effect
+  - Keep divider height around 45px for balanced appearance
+  - Use relative positioning and z-index to maintain proper stacking
+  - Ensure overflow-x: hidden on body to prevent scrollbars
+  - Add slight overlap (-1px) to prevent visible gaps between sections
+  - Use pointer-events: none to prevent interaction with dividers
+  - Apply subtle blur filter to smooth edges
+  - Match divider color with section background for seamless transitions
+  - Set z-index to 0 to prevent overlapping with section content
 
 # Scratchpad
 
@@ -631,43 +645,6 @@ Next Step: Begin Animations and Transitions Phase
 - Use CSS pseudo-elements (::before, ::after) for hover effects to avoid cluttering the DOM
 - When using CSS Modules with Tailwind's 'group' functionality, use :global(.group:hover) selector to properly select child elements when their parent is hovered
 - For card-level hover effects that affect contained elements, replace direct :hover selectors with group-hover patterns for more intuitive user interaction
-<<<<<<< HEAD
-- For SVG shape dividers, use width: 210% and animation with margin-left for smooth infinite animation
-- When animating SVG elements, use cubic-bezier timing functions for more natural movement
-- Use CSS custom properties (variables) for animation durations to make them easily customizable
-- Create wrapper components with sensible defaults for complex decorative elements
-- Position shape dividers with absolute positioning and z-index to ensure proper layering
-- Use overflow: hidden on containers to prevent animated elements from causing scrollbars
-=======
-- When implementing canvas-based animations, ensure particles are positioned initially out of view (below viewport) and animated in
-- For scroll-triggered canvas animations, calculate normalized scroll progress relative to the section element rather than entire page
-- Add `position: 'relative'` to containers with Framer Motion's useScroll hook to ensure proper tracking
-- When using multiple useScroll hooks, ensure consistent offset values across related animations
-- For particle animation timing, keep particles visible as text fades out by tying particle visibility to text opacity
-- Instead of checking specific opacity values (1, 0), use ranges to handle transitions between states
-- Remember to add a dependency array [opacity] to useEffect when animation depends on a motion value
-- For scrolling text indicators, use subtle animations with lower duration (1-2s) rather than complex multi-step animations
-- Match timing points between different animations (0.85, 1) for consistent fade effects
-- For cursor-interactive elements, implement a more natural boundary detection with clear visual feedback
-- For canvas particle animations with continuous motion, implement a two-phase approach: initial emergence followed by continuous movement
-- Use a hasEmerged flag to track when particles have reached their initial positions and should switch to continuous floating mode
-- Make particle animations more dynamic by increasing amplitude, rotation speed, and scale variation parameters
-- Apply both constant upward motion and scroll-based acceleration to particles for a dynamic floating effect
-- For cursor interaction, apply the force to the final x/y position rather than modifying the base positions to prevent jitter
-- Use larger amplitude values (80-120 rather than 30-50) for more noticeable floating movement
-- When tracking scroll position, use a combination of normalized scroll progress and custom multipliers for more natural upward flow
-- For section transitions, use canvas-based animations for better control over drawing low-level shapes
-- When implementing staggered animations, add small delays (0.05-0.1s) between elements for natural flow
-- For bar graph transitions, calculate relative widths based on container width to ensure bars fill the entire space
-- Use exponential easing (easeOutExpo) for quick initial growth and subtle finishing motion
-- Apply transform and opacity transitions together for smoother entries
-- For bar graph animations, multiply progress value (progress \* 3) to start animation earlier in the scroll sequence
-- Position transition elements with absolute positioning at section boundaries
-- Implement proper canvas sizing with resize event listeners for responsive behavior
-- When animating heights, draw from bottom up for a rising effect
-- Create seamless transitions by having bars touch with no gaps between them
-- For canvas animations, always use requestAnimationFrame and clear the animation in cleanup functions
->>>>>>> 7888f70009ac13f3670cfba0df9573922e1bbedd
 
 # Process Management
 

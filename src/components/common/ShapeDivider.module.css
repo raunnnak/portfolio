@@ -5,18 +5,19 @@
   width: 100%;
   overflow: hidden;
   line-height: 0;
-  z-index: 1;
-  --animation-duration: 22s; /* Default animation duration */
+  z-index: 20;
+  --animation-duration: 28s; /* Default animation duration */
+  pointer-events: none;
 }
 
 /* Position styles */
 .shapeTop {
-  top: 0;
+  top: -1px; /* Slight overlap to prevent gap */
   transform: rotate(180deg);
 }
 
 .shapeBottom {
-  bottom: 0;
+  bottom: -1px; /* Slight overlap to prevent gap */
 }
 
 /* SVG styles */
@@ -24,25 +25,26 @@
   width: 100%;
   height: 100%;
   transform: translateX(0);
+  filter: blur(0.5px); /* Subtle blur to smooth edges */
 }
 
 /* Animation styles */
 .animated .shapeFill {
-  width: 210%; /* Increased width for animation */
+  width: 200%; /* Reduced width for more subtle movement */
   animation: shapeAnimation var(--animation-duration)
-    cubic-bezier(0.55, 0.085, 0.68, 0.53) infinite;
+    cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite; /* Updated timing function for smoother movement */
 }
 
 /* Keyframes for the animation */
 @keyframes shapeAnimation {
   0% {
-    margin-left: 0;
+    transform: translateX(0);
   }
   50% {
-    margin-left: -1600px;
+    transform: translateX(-25%); /* Reduced movement distance */
   }
   100% {
-    margin-left: 0;
+    transform: translateX(0);
   }
 }
 

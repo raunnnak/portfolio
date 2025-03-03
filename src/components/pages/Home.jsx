@@ -12,22 +12,21 @@ const Home = () => {
       </ScrollSection>
 
       <ScrollSection 
-        showTopDivider 
         showBottomDivider
-        dividerShape="waves"
-        dividerHeight={80}
-        animationDuration={28}
+        dividerShape="clouds"
+        dividerHeight={70}
+        animationDuration={30}
       >
         <FeaturedProjects />
       </ScrollSection>
 
       <ScrollSection 
         isBlack 
-        showTopDivider 
-        showBottomDivider
-        dividerShape="bubbles"
-        dividerHeight={90}
-        animationDuration={25}
+        showTopDivider
+        dividerShape="clouds"
+        dividerHeight={70}
+        animationDuration={30}
+        dividerColor="#000000"
       >
         <AboutIntro />
       </ScrollSection>
